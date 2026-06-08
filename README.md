@@ -113,12 +113,6 @@ Mermaid · MDX  ██░░░░░░░░░░░░░░░░░░░�
 
 ---
 
-## 🌍 Public work
-
-- 📘 **[Supabase Expo React Native Social Auth guide](https://supabase.com/docs/guides/auth/quickstarts/with-expo-react-native-social-auth)**... Author of the official Supabase guide.
-- 🧩 **[recursive-decomposition-skill](https://github.com/massimodeluisa/recursive-decomposition-skill)**... Open-source agent skill for long-context tasks, based on the Recursive Language Models research (Zhang, Kraska, Khattab 2025).
-- 🧵 **[Stack Overflow](https://stackoverflow.com/users/2689402/massimo-de-luisa)**... 12+ years of answers across Swift, iOS, Java, Angular, PostgreSQL and systems engineering.
-
 ## 🏆 Recognitions
 
 - 🌱 **Joined [Smart Squad](https://smartsquad.io) as CTO**... took it from start-up to company.
