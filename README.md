@@ -118,7 +118,7 @@ Mermaid · MDX  ██░░░░░░░░░░░░░░░░░░░�
 - 🌱 **Joined [Smart Squad](https://smartsquad.io) as CTO**... took it from start-up to company.
 - 🏅 **[Fleet News Awards 2017 finalist](https://www.fleetnews.co.uk/news/fleet-industry-news/2017/04/24/fleet-news-awards-2017-most-innovative-new-product-or-service-freight-transport-association)**... for CUP Carsharing (now [Arval Share and Go](https://www.arval.it/corp/soluzioni-per-il-noleggio/mobilita-sostenibile/arval-share-and-go)), as Dev lead at [Omniaevo](https://github.com/Omniaevo).
 - 🚀 **Senior Backend Architect → Development Team Leader** in two years at Omniaevo.
-- 🛡 **12 years of senior cybersecurity consulting** for Trade Petroleum (London, remote, 2013–2025).
+- 🛡 **12 years of senior cybersecurity consulting** for Trade Petroleum (London, remote, 2013-2025) with 0 incidents, no data breaches, billion dollars customers data protected.
 
 ## 💙 Special mentions
 
