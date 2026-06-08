@@ -1,4 +1,4 @@
-<a href="https://github.com/massimodeluisa">
+<a href="https://massimo.deluisa.bio">
   <img alt="Massimo De Luisa header" src="https://capsule-render.vercel.app/api?type=waving&color=0:5BA3D9,50:3B82F6,100:111827&height=240&section=header&text=Massimo%20De%20Luisa&fontSize=70&fontColor=ffffff&fontAlignY=36&animation=fadeIn&desc=%E3%83%9E%E3%83%83%E3%82%B7%E3%83%A2%20%E3%83%87%20%E3%83%AB%E3%82%A4%E3%83%BC%E3%82%B6%20%C2%B7%20CTO%20%C2%B7%20Smart%20Squad%20%C2%B7%20Inksquad%20%C2%B7%20Udine%2C%20IT&descAlignY=60&descSize=18" width="100%">
 </a>
 
@@ -10,6 +10,7 @@
 
 <br>
 
+<a href="https://massimo.deluisa.bio"><img alt="Bio · all my links" src="https://img.shields.io/badge/Bio-massimo.deluisa.bio-3B82F6?style=for-the-badge&logo=linktree&logoColor=white"></a>
 <a href="https://smartsquad.io"><img alt="Smart Squad" src="https://img.shields.io/badge/Smart%20Squad-CTO-111827?style=for-the-badge"></a>
 <a href="https://inksquad.com"><img alt="Inksquad" src="https://img.shields.io/badge/Inksquad-CTO-3B82F6?style=for-the-badge"></a>
 <a href="https://x.com/massimodeluisa"><img alt="X" src="https://img.shields.io/badge/X-@massimodeluisa-000000?style=for-the-badge&logo=x&logoColor=white"></a>
@@ -26,7 +27,7 @@
 
 ### 👋 Ciao
 
-Ciao, I'm Massimo... a tech passionate from [Udine, Italy](https://turismofvg.it/en). I currently serve as CTO at [Smart Squad](https://smartsquad.io) and [Inksquad](https://inksquad.com), mostly working on mobile apps, the platforms behind them, and the AI/automation glue that holds it all together. The part of the job I enjoy most is when product, infrastructure and people decisions get to talk to each other early, rather than later.<br> When I close the laptop I'm usually petting animals ([the cats are even toilet-trained 🚽](https://x.com/massimodeluisa/status/2054099024982978704?s=46), possibly my proudest engineering feat to date), riding motorcycles, driving too fast cars, playing chess, lifting weights at the gym, shooting cities at night, or building memory palaces to learn Japanese. <br><br>*For senior advisory or interesting partnerships, [reach out](mailto:massimodeluisa@me.com)* ✨<br>
+Ciao, I'm Massimo... a tech passionate from [Udine, Italy](https://turismofvg.it/en). I currently serve as CTO at [Smart Squad](https://smartsquad.io) and [Inksquad](https://inksquad.com), mostly working on mobile apps, the platforms behind them, and the AI/automation glue that holds it all together. The part of the job I enjoy most is when product, infrastructure and people decisions get to talk to each other early, rather than later.<br> When I close the laptop I'm usually petting animals ([the cats are even toilet-trained 🚽](https://x.com/massimodeluisa/status/2054099024982978704?s=46), possibly my proudest engineering feat to date), riding motorcycles, driving too fast cars, playing chess, lifting weights at the gym, shooting cities at night, or building memory palaces to learn Japanese. <br><br>*For senior advisory or interesting partnerships, [reach out](mailto:massimodeluisa@me.com) — or find all my links at [massimo.deluisa.bio](https://massimo.deluisa.bio)* ✨<br>
 
 ```txt
 currently    CTO at Smart Squad + Inksquad
@@ -111,23 +112,6 @@ Mermaid · MDX  ██░░░░░░░░░░░░░░░░░░░�
 </p>
 
 ---
-
-## 🍳 Stuff I've cooked up
-
-| | What it is |
-| --- | --- |
-| **[Inksquad](https://inksquad.com/people-app)** | Worldwide iOS/Android app for shaping tattoo ideas, references and AI-generated concepts. Built on Expo + Turborepo with NestJS APIs, Supabase as the data layer, AI SDK + Replicate for generative concepts and n8n for workflow automation. |
-| **[Inksquad Artist](https://inksquad.com/artist-app)** | iPad app for artists... color analysis, ink matching, stencils, palettes, live-session workflows. Built natively on Swift + SwiftUI with Supabase as the data layer. |
-| **ITD** | Multi-tier operational platform (API · Admin · Monitor) holding and managing 100,000+ customers, powering [ituoidiritti.it](https://ituoidiritti.it/) with [InfoCamere](https://www.infocamere.it/) interconnection. Stack: NestJS + Supabase + Sequin + Typesense + Vue + Fluent UI + n8n. <br>P.S. *The public website itself, however, is a different story entirely and not part of this platform's work* 🙃 |
-| **[Clickrisorse](https://clickrisorse.it)** | Public B2C job-search platform that pairs candidates with real human consulting. AI ingests, parses and ranks CVs so consultants can navigate tens of thousands of profiles, while admins oversee the whole pipeline. |
-| **[Sultan](https://www.sultansrl.it)** | Internal management platform plus two native mobile apps with offline-first data sync between them, secured by on-device cryptographic authorization (SSL private keys and a custom certificate-chain authority for offline access control). Stack: Vue 3 + Tailwind + Firebase + Algolia on the web, native Swift and Kotlin on mobile, Firebase orchestrating sync across the whole suite. |
-| **[Facile626](https://facile626.it)** | B2B mobile app for Italian workplace-safety compliance (D.Lgs 81/2008, formerly "626"). |
-| **[ShowGroup](https://www.showgroup.it/)** | Native iOS and Android mobile apps for ShowGroup, one of Italy's largest marketplaces for event services (17,000+ professionals across artists, F&B, venues and setup, ~1,000 bookings landed every month)... SwiftUI on iOS, Kotlin on Android. |
-| **[Gallas Group](https://www.gallasgroup.it/)** | Internal native Android app for digital PDF signatures, used across one of Italy's biggest in-home care agencies (*badanti*, *colf*, babysitters)... 40+ branches nationwide, ministerial authorization as employment agency since 2022. |
-| **[AUSIR](https://www.ausir.fvg.it)** | Internal platform for the Friuli-Venezia Giulia regional authority that manages public procurement (*gare d'appalto*) and *Conferenze di Servizio*. Stack: self-hosted Supabase + Vue + Tailwind, with cron-driven workflows. |
-| **[DIA](https://direzioneinvestigativaantimafia.interno.gov.it)** | Confidential application for the [Direzione Investigativa Antimafia](https://direzioneinvestigativaantimafia.interno.gov.it), Italy's anti-mafia investigative police force... no further details can be disclosed 👮🏻‍♂️. |
-| **home-harmony-ai** | Personal R&D... Turborepo + React Native + Next.js + LLMs · **Work in progress** 🚧 |
-| **[CUP Carsharing](https://www.linkedin.com/showcase/cup-carsharing-universal-platform)<br> Arval Car Sharing · ShareNGo · MiMoto** | Born at [Omniaevo](https://github.com/Omniaevo) as CUP Carsharing, later adopted by Arval and adapted for both **MiMoto** scooter-sharing and the **ShareNGo** electric car-sharing platform.<br>Stack: native Swift + Kotlin mobile apps; Node.js + Golang + PHP microservices on Kubernetes + Kafka, with Postgres + Redis underneath; PHP services running on Zend Framework (now [Laminas](https://getlaminas.org/)) and Zend Expressive (now [Mezzio](https://docs.mezzio.dev/)); custom electronics with C++ firmware on the cars, talking BLE, I2C, SSL-secured sockets and a handful of other protocols. The Python firmware on MiMoto scooters was developed in collaboration with [Wedontplay](https://github.com/Wedontplay) at [Leva](https://www.leva.io). |
 
 ## 🌍 Public work
 
