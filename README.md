@@ -10,9 +10,9 @@
 
 <br>
 
-<a href="https://massimo.deluisa.bio"><img alt="Bio · all my links" src="https://img.shields.io/badge/Bio-massimo.deluisa.bio-3B82F6?style=for-the-badge&logo=linktree&logoColor=white"></a>
 <a href="https://smartsquad.io"><img alt="Smart Squad" src="https://img.shields.io/badge/Smart%20Squad-CTO-111827?style=for-the-badge"></a>
 <a href="https://inksquad.com"><img alt="Inksquad" src="https://img.shields.io/badge/Inksquad-CTO-3B82F6?style=for-the-badge"></a>
+<a href="https://massimo.deluisa.bio"><img alt="Bio · all my links" src="https://img.shields.io/badge/Bio-massimo.deluisa.bio-3B82F6?style=for-the-badge&logo=linktree&logoColor=white"></a>
 <a href="https://x.com/massimodeluisa"><img alt="X" src="https://img.shields.io/badge/X-@massimodeluisa-000000?style=for-the-badge&logo=x&logoColor=white"></a>
 <a href="https://www.linkedin.com/in/massimodeluisa/"><img alt="LinkedIn" src="https://img.shields.io/badge/LinkedIn-Massimo-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white"></a>
 
@@ -128,16 +128,6 @@ Mermaid · MDX  ██░░░░░░░░░░░░░░░░░░░�
 - 🧮 **[Marco (AKA marcosh)](https://github.com/marcosh)**... mathematical mind and uncompromising perfectionist. Helped me design virtual factories beyond the virtual itself.
 - 🌱 **[Leonardo (AKA MedaiP90)](https://github.com/MedaiP90)**... started out as my protégé, now one of the most solid developers I know. Couldn't be prouder.
 - 💚 **[Terry (AKA saltcod)](https://github.com/saltcod)**... my Supabase north star. Genuinely kind, genuinely passionate, and always ready to help.
-
-## 🧠 Brain training
-
-Japanese is my current deliberate-practice project. I build it as a memory system, not a loose collection of notes:
-
-```txt
-Heisig keywords → PAV images → linked scenes → palace of loci → Obsidian SRS
-```
-
-The 2200 Heisig kanji live across a growing set of memory palaces... *Casa Udine*, *Ufficio Via Poscolle*... each room holding a chain of vivid stories that decode every kanji on contact. That's also how I like to build software: map the domain, choose the right anchors, make feedback loops visible, then improve the weak spots.
 
 ---
 
