@@ -5,7 +5,7 @@
 <div align="center">
 
 <a href="https://github.com/massimodeluisa">
-  <img alt="typing intro" src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=700&size=22&duration=2600&pause=700&color=3B82F6&center=true&vCenter=true&width=900&lines=Tech+passionate+%C2%B7+Mobile+%2B+AI+%2B+Platform+engineering;I+help+mobile%2C+web+and+infrastructure+work+as+one+system;Supabase+%2B+Typesense+%2B+NestJS+%2B+Sequin;OpenAI+%2B+Grok+%2B+Vercel+AI+SDK+%2B+Replicate">
+  <img alt="typing intro" src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=700&size=22&duration=2600&pause=700&color=3B82F6&center=true&vCenter=true&width=900&lines=Tech+passionate+%C2%B7+Mobile+%2B+AI+%2B+Platform+engineering;I+help+mobile%2C+web+and+infrastructure+work+as+one+system;Supabase+%2B+Typesense+%2B+NestJS+%2B+Sequin;OpenAI+%2B+Grok+%2B+Vercel+AI+SDK+%2B+Replicate;Currently+experimenting+with+Rust">
 </a>
 
 <br>
@@ -34,6 +34,7 @@ currently    CTO at Smart Squad + Inksquad
 building     mobile apps, operational platforms, AI-assisted workflows
 running      Turborepo, Vercel, Cloudflare, Docker, Supabase, Typesense, NestJS
 integrating  OpenAI, Grok, Vercel AI SDK, Replicate, n8n, Anthropic, Gemini and many more...
+experimenting  Rust (systems tooling, performance-sensitive paths, learning in public)
 learning     Japanese (with Heisig, PAV, linked method, loci and SRS)
 offline      books, tech, chess, motorcycles, cars, gym, cats, anime, cooking
 ```
@@ -41,11 +42,12 @@ offline      books, tech, chess, motorcycles, cars, gym, cats, anime, cooking
 ### 🛠 This period I'm shipping with
 
 ```txt
-TypeScript     ████████████████████░░░░   78%
-Swift          ███████░░░░░░░░░░░░░░░░░   24%
-SQL            █████░░░░░░░░░░░░░░░░░░░   18%
-Shell          ███░░░░░░░░░░░░░░░░░░░░░   11%
-Mermaid · MDX  ██░░░░░░░░░░░░░░░░░░░░░░    7%
+TypeScript     ████████████████████░░░░   76%
+Swift          ███████░░░░░░░░░░░░░░░░░   22%
+SQL            █████░░░░░░░░░░░░░░░░░░░   16%
+Rust           ████░░░░░░░░░░░░░░░░░░░░   12%
+Shell          ███░░░░░░░░░░░░░░░░░░░░░   10%
+Mermaid · MDX  ██░░░░░░░░░░░░░░░░░░░░░░    6%
 ```
 
 ## 🧰 Tech I love
@@ -69,6 +71,7 @@ Mermaid · MDX  ██░░░░░░░░░░░░░░░░░░░�
 <img alt="NestJS" src="https://img.shields.io/badge/NestJS-E0234E?style=flat-square&logo=nestjs&logoColor=white">
 <img alt="Node.js" src="https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=nodedotjs&logoColor=white">
 <img alt="Go" src="https://img.shields.io/badge/Go-00ADD8?style=flat-square&logo=go&logoColor=white">
+<img alt="Rust" src="https://img.shields.io/badge/Rust-000000?style=flat-square&logo=rust&logoColor=white">
 <img alt="PostgreSQL" src="https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white">
 <img alt="Supabase" src="https://img.shields.io/badge/Supabase-3FCF8E?style=flat-square&logo=supabase&logoColor=0B3B2E">
 <img alt="Redis" src="https://img.shields.io/badge/Redis-DC382D?style=flat-square&logo=redis&logoColor=white">
