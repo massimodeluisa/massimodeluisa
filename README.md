@@ -31,9 +31,12 @@ Find all my contacts at [deluisa.bio/massimo](https://deluisa.bio/massimo).
 ## Writing
 
 <!-- writing:start -->
-* [Columns that move without a frame loop](https://deluisa.me/blog/2026-09-04-images-in-motion), September 4, 2026
-* [LEO to GEO from a URL](https://deluisa.me/blog/2026-08-13-sidus), August 13, 2026
-* [People and Artist](https://deluisa.me/blog/2026-08-13-inksquad), August 13, 2026
-* [Can the crawler read you](https://deluisa.me/blog/2026-08-13-isready), August 13, 2026
-* [This went live in June](https://deluisa.me/blog/2026-06-08-deluisa-me), June 8, 2026
+* [How I cracked Firecrawl Cheat Code](https://deluisa.me/blog/2026-09-10-firecrawl-cheat-code), September 10, 2026
+* [Images in motion](https://deluisa.me/blog/2026-09-04-images-in-motion), September 4, 2026
+* [Named glyphs, not empty boxes](https://deluisa.me/blog/2026-08-29-nerd-fonts), August 29, 2026
+* [Decompose the work, keep the window small](https://deluisa.me/blog/2026-08-28-recursive-decomposition), August 28, 2026
+* [Calling Hohmann from a public URL](https://deluisa.me/blog/2026-08-13-sidus), August 13, 2026
+* [Inksquad People and Inksquad Artist](https://deluisa.me/blog/2026-08-13-inksquad), August 13, 2026
+* [Checking whether AI crawlers can actually read a site](https://deluisa.me/blog/2026-08-13-isready), August 13, 2026
+* [How I rebuilt deluisa.me](https://deluisa.me/blog/2026-06-08-deluisa-me), June 8, 2026
 <!-- writing:end -->
