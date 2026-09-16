@@ -18,6 +18,7 @@ Find all my contacts at [deluisa.bio/massimo](https://deluisa.bio/massimo).
 * [Images in motion](https://iim.smartsquad.io), an open-source Js,React,Expo,Vue CSS mosaic that keeps moving
 * [recursive-decomposition-skill](https://github.com/massimodeluisa/recursive-decomposition-skill), long-context work split until it fits
 * [nerdfonts-skill](https://github.com/massimodeluisa/nerdfonts-skill), Nerd Fonts glyphs for any icon
+* [rust-best-practices-skill](https://github.com/massimodeluisa/rust-best-practices-skill), Rust best practices, based on official documentation and common patterns
 
 ...and several other internal B2B solutions.
 
