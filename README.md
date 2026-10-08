@@ -26,6 +26,7 @@ Find all my contacts at [deluisa.bio/massimo](https://deluisa.bio/massimo).
 
 ## Recognitions
 
+* Won [Firecrawl CheetCode v3](https://deluisa.me/blog/2026-09-10-firecrawl-cheat-code)... 60/60, Elo 3850, rank 1, zero retries.
 * Joined [Smart Squad](https://smartsquad.io) as CTO... took it from start-up to company.
 * [Fleet News Awards 2017 finalist](https://www.fleetnews.co.uk/news/fleet-industry-news/2017/04/24/fleet-news-awards-2017-most-innovative-new-product-or-service-freight-transport-association)... for CUP Carsharing (now [Arval Share and Go](https://www.arval.it/corp/soluzioni-per-il-noleggio/mobilita-sostenibile/arval-share-and-go)), as Dev lead at [Omniaevo](https://github.com/Omniaevo).
 * Senior Backend Architect → Development Team Leader in two years at Omniaevo.
