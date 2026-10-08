@@ -13,6 +13,8 @@ Find all my contacts at [deluisa.bio/massimo](https://deluisa.bio/massimo).
 ## Things I've shipped
 
 * [Inksquad](https://inksquad.com), People on the web and Artist on iPad
+* [Kizuna Sync](https://kizunasync.com), offline-first sync for Supabase, now in alpha
+* [openbio.page](https://openbio.page), free open-source white-label link-in-bio you host yourself
 * [isready.ai](https://isready.ai), an open-source audit of whether AI can actually read a site
 * [sidus.tools](https://sidus.tools), open-source space engineering tools in SI
 * [Images in motion](https://iim.smartsquad.io), an open-source Js,React,Expo,Vue CSS mosaic that keeps moving
