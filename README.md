@@ -12,6 +12,7 @@ Find all my contacts at [deluisa.bio/massimo](https://deluisa.bio/massimo).
 
 ## Things I've shipped
 
+* [Expo Apple Sign-In](https://exsi.smartsquad.io), open-source Sign in with Apple for Expo SDK 58 on Modules 2.0, one API for iOS, Android and web, Supabase ready
 * [Inksquad](https://inksquad.com), People on the web and Artist on iPad
 * [Kizuna Sync](https://kizunasync.com), offline-first sync for Supabase, now in alpha
 * [openbio.page](https://openbio.page), free open-source white-label link-in-bio you host yourself
