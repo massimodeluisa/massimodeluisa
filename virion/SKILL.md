@@ -48,7 +48,9 @@ If a structure or step is not in the source, omit it or mark it in the caption a
 
 `examples/norovirus/` is the naked T=3 capsid. ViralZone supplies the cycle. Prasad et al. 1994 and PDB 1IHM supply the diameter, the 90 dimers, and the shell radii. HHMI is not a source for it.
 
-Nuclear import, transcription, and replication factories are real and are not in these figures. Do not add a fake compartment to suggest them.
+`examples/hodgkin/` is the test of a name that is not a particle. Classical Hodgkin lymphoma is a cancer. The figure draws the only experimental CD30 structure, PDB 1D01, three cytoplasmic tails on a TRAF2 trimer. It does not draw a Reed-Sternberg cell, a lymph node, or a virus.
+
+Nuclear import, transcription, replication factories, and NF-κB are real and are not in these figures. Do not add a fake compartment to suggest them.
 
 ## Craft, short form
 
@@ -74,7 +76,7 @@ Nuclear import, transcription, and replication factories are real and are not in
 ## References
 
 - `references/databases.md`: where to search for any pathogen or molecule, and what each record may contribute.
-- `references/influenza.md`, `references/norovirus.md`: the numbers for the two worked figures.
+- `references/influenza.md`, `references/norovirus.md`, `references/hodgkin.md`: the numbers for the worked figures.
 - `references/sources.md`: how to take a URL, and what this skill will not produce.
 - `references/craft.md`: parts, tones, order, motion, the failure modes.
 - `references/kit.md`: the functions the figure actually calls.

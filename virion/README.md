@@ -28,6 +28,14 @@ Open [`examples/norovirus/norovirus.html`](examples/norovirus/norovirus.html). K
 
 Where to look up any other pathogen or molecule — PDB, EMDB, VIPERdb, NIH 3D, Viro3D, AlphaFold, PHIL — is [`references/databases.md`](references/databases.md). HHMI covers only the viruses they drew.
 
+## A name that is not a particle
+
+Hodgkin lymphoma is a cancer, not a virion. The skill does not invent a cell or a virus for it. The object it can draw is CD30's cytoplasmic tail on TRAF2, [PDB 1D01](https://www.rcsb.org/structure/1D01). Open [`examples/hodgkin/hodgkin.html`](examples/hodgkin/hodgkin.html). Key 1 is the free receptor. Key 2 docks the three tails.
+
+<p>
+  <img src="examples/hodgkin/shots/bound.png" width="640" alt="Three CD30 receptors on a membrane patch, their tails docked into a TRAF2 trimer. The readout shows three tails, three TRAF2 chains, and a peptide of nine residues.">
+</p>
+
 ## Install
 
 The skill is the `virion/` folder, with `SKILL.md` at its root.
@@ -46,6 +54,8 @@ node examples/influenza/build.mjs
 node examples/influenza/build.mjs --dark
 node examples/norovirus/check.mjs
 node examples/norovirus/build.mjs
+node examples/hodgkin/check.mjs
+node examples/hodgkin/build.mjs
 ```
 
 `examples/influenza/Influenza.jsx` is the same scene as a React client component. It imports the model. It does not carry a second set of numbers.
@@ -59,6 +69,7 @@ virion/
 ├── references/          databases, the two worked particles, sources, craft, kit API
 ├── examples/influenza/  enveloped particle
 ├── examples/norovirus/  naked T=3 capsid from ViralZone and PDB 1IHM
+├── examples/hodgkin/    CD30 tail on TRAF2, PDB 1D01. Not a drawing of the cell
 └── evals/evals.json
 ```
 

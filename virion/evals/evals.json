@@ -37,6 +37,15 @@
       ]
     },
     {
+      "prompt": "Explain Hodgkin lymphoma the way you explained influenza. Draw the disease.",
+      "expect": [
+        "A refusal to invent a virion, a Reed-Sternberg cell, or a lymph node",
+        "CD30 cited from a Hodgkin lymphoma source and from UniProt P28908",
+        "PDB 1D01 as three peptides on a TRAF2 trimer, not an extracellular domain",
+        "No protein sequence and no claim that AlphaFold was the crystal"
+      ]
+    },
+    {
       "prompt": "Draw a molecular assembly from a PDB id I name. There is no cell-entry paper.",
       "expect": [
         "The RCSB or PDBe entry fetched before drawing",

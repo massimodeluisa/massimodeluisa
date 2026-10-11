@@ -69,6 +69,12 @@ NIH 3D is the place for a printable construction. Mol* on RCSB and PDBe is the p
 
 `spike(..., { lobes })` is the surface protein. Two lobes read as a dimer arch, three as a trimer, four as a tetramer. The count of lobes is the published oligomer. The number of copies drawn on the facing side is a sample, and the caption says so.
 
+## When the name is not a particle
+
+A disease, a cancer, or a syndrome is not an object. Search it anyway. If ViralZone, PDB, and EMDB have no particle, draw the molecule those records actually contain, and write down what you will not invent.
+
+Classical Hodgkin lymphoma is the worked case. The WHO criteria describe a CD30-positive Reed-Sternberg cell in a tissue. The cell is not the figure. PDB 1D01 is: three CD30 peptides on a TRAF2 trimer. See `references/hodgkin.md`.
+
 ## A new figure
 
 1. Search the tables. Save the URLs in `references/<name>.md`.
