@@ -1,66 +1,64 @@
 ---
 name: virion
-description: Build a crafted interactive isometric figure that explains how a virus particle works on a host membrane. Use when someone wants a virion, pathogen, influenza, entry, fusion, uncoating, or budding explained as a physical object, or an interactive figure from an HHMI, PDB, or review-page description. The moving parts are the mechanism. Every number on the figure comes from the same small model that moves those parts.
+description: Build a crafted interactive isometric figure that explains a pathogen, a virus particle, or a molecular assembly. Use when someone wants any virus, virion, bacterium, parasite surface, capsid, spike, entry, fusion, uncoating, budding, or a PDB, EMDB, ViralZone, or NIH 3D structure explained as a physical object. The moving parts are the mechanism. Every number on the figure comes from the same small model that moves those parts.
 ---
 
 # Virion
 
-This skill explains a virus by building the particle. A reader should be able to point at a spike, a pore, or a rod and say what it just did. The first finished figure is influenza A on one patch of membrane: bind, enter, fuse, uncoat, bud.
+This skill explains a pathogen or a molecule by building the object. A reader should be able to point at a spike, an arch, a pore, or a strand and say what it just did. Influenza A is the enveloped example. Norwalk virus is the naked icosahedral example. The same workflow covers any other virus, a bacterial or parasite surface, or a single molecular assembly.
 
-The drawing school is the one in Ryan's Anatomy skill (https://github.com/wheresryan22/anatomy): many small solid parts, a real camera, painter's order, a framed card, and numbers that come from the mechanism. The kit here is a smaller one, written for membranes and spikes. Do not paste Anatomy's kit in. Use this one, and keep Anatomy's rules where they still fit.
+The drawing school is the one in Ryan's Anatomy skill (https://github.com/wheresryan22/anatomy): many small solid parts, a real camera, painter's order, a framed card, and numbers that come from the mechanism. The kit here is a smaller one, written for membranes, capsids, and spikes. Do not paste Anatomy's kit in. Use this one, and keep Anatomy's rules where they still fit.
+
+HHMI Virus Explorer is a plain-language cycle for a short list of viruses. It is one optional source when the virus is on that list. It is not the boundary of the skill. Structures, images, and 3D reconstructions come from the public databases in `references/databases.md`.
 
 ## The rule
 
-**The object is the explanation.** Do not draw boxes, arrows, or floating labels. The spike that lengthens is the fusion spring. The rods that leave through the membrane are the genome. The heads that shrink are sialic acid being cut. If a step cannot be shown by a part moving, it does not belong in the figure yet.
+**The object is the explanation.** Do not draw boxes, arrows, or floating labels. The spike that lengthens is the fusion spring. The arches that touch the sugars are the capsid dimers. The strand that leaves through the shell is the genome. If a step cannot be shown by a part moving, it does not belong in the figure yet.
 
 Every number in the readout is computed by the model that places the parts. A count you type into the caption and a different count you type into the drawing is a bug. Literature numbers live in a facts module. The model imports them. The caption is filled from that same module.
 
 ## What not to do
 
-This skill draws public mechanism. It does not help make, grow, rescue, passage, deliver, or alter a virus.
+This skill draws public mechanism. It does not help make, grow, rescue, passage, deliver, or alter a pathogen.
 
-- No genome sequences, only published lengths when a source states them.
-- No reverse genetics, plasmids, expression, purification, or culture steps.
-- No instructions for changing host range, fusion pH, or drug resistance.
+- No genome or protein sequences, only a published length when a source states it.
+- No reverse genetics, plasmids, expression, purification, culture, or fermentation steps.
+- No instructions for changing host range, fusion pH, drug resistance, or yield.
+- Do not download FASTA, GenBank, or alignment dumps from Viro3D, BFVD, NCBI, or UniProt. An accession is a citation.
 - If a request asks for any of that, refuse that part and stay with the figure. `references/sources.md` has the boundary.
 
-If a structure or step is not in the source, omit it or mark it in the caption as schematic. Do not invent a mechanism to fill a gap.
+If a structure or step is not in the source, omit it or mark it in the caption as schematic. Do not invent a mechanism to fill a gap. Do not reuse influenza spike counts, or the norovirus T-number, on another particle.
 
 ## Workflow
 
-1. **Keep the first figure small.** One particle and one membrane patch is the whole job. Nucleus, a second cell, blood, or a tissue is a later figure. Say that, and build the particle.
-2. **Truth first.** Read `references/influenza.md` for influenza. For any other virus, or when the user pastes a URL, follow `references/sources.md`: fetch the page, keep only claims you can point at, and write them into a facts module before any geometry.
-3. **Name the motion.** One sentence: what moves, and what that motion means. For influenza: the particle docks on sialic acid, the membrane cups around it, low pH lengthens HA into the membrane, the eight rods leave, and on the way out NA clears the sugars.
-4. **Parts, then code.** List the parts in groups: membrane, receptors, envelope, the three surface proteins, the inner shell, the genome rods. Each part sits on another part.
-5. **One model.** `pose(u)` returns positions, pH, and the readout. The scene only draws that object. Do not keep a second copy of the numbers in the page script.
-6. **Draw with the kit.** Solids, depth sorted. Camera fit is stable across the whole cycle so the particle does not zoom as it moves. `references/kit.md`.
-7. **Frame it.** Fig number, title, hint, live readout, legend and caption under the card. Words stay out of the drawing.
-8. **Make it live.** Drag turns the particle. Keys 1–5 rest on the five stages. Space plays the cycle. E eases the particle apart. `[` and `]` change the pace. Motion eases. Reduced motion jumps and does not play.
-9. **Check it.** `node examples/influenza/check.mjs` must pass. Then open the page and look: bind shows contact, the pit keeps that contact, fusion lengthens the spikes, eight rods leave, budding lifts a neutral-pH particle and the sugars are gone.
+1. **Name the object.** One particle, one surface, or one assembly. A nucleus, a tissue, or a second cell is a later figure.
+2. **Search the public record.** Follow `references/databases.md`. ViralZone or ICTV for the taxon, then PDB and EMDB for an experimental structure, VIPERdb for an icosahedral capsid, NIH 3D for a reconstruction, PDB-101 for a plain-language essay. Predicted models (Viro3D, BFVD, AlphaFold, ModelArchive) only when no experimental structure exists, and the caption says predicted. HHMI only if that virus is one of theirs, and never as the only source of a size.
+3. **Truth first.** Write `references/<name>.md` and `examples/<name>/facts.mjs` before any geometry. Keep the URL next to each claim.
+4. **Name the motion.** One sentence: what moves, and what that motion means. If the sources do not give a cycle, draw the resting object and say so.
+5. **Parts, then code.** List the parts. Each part sits on another part. `lobes` on a spike is the published oligomer: 2 dimer, 3 trimer, 4 tetramer.
+6. **One model.** `pose(u)` returns positions and the readout. The scene only draws that object.
+7. **Draw with the kit.** Solids, depth sorted. Camera fit is stable across the whole cycle so the object does not zoom as it moves. `references/kit.md`.
+8. **Frame it.** Fig number, title, hint, live readout, legend and caption under the card. Words stay out of the drawing.
+9. **Make it live.** Drag turns the object. Number keys rest on the stages. Space plays the cycle. E eases it apart. `[` and `]` change the pace. Motion eases. Reduced motion jumps and does not play.
+10. **Check it.** `node examples/<name>/check.mjs` must pass. Then open the page and look.
 
-## The influenza figure
+## Worked figures
 
-`examples/influenza/` is the reference build.
+`examples/influenza/` is the enveloped particle. HHMI's Virus Explorer supplies the cycle. Harris et al. 2006 supply the spike counts. The drawing shows a facing handful of spikes.
 
-- `facts.mjs` holds the cited numbers.
-- `model.mjs` is the only place those numbers become a pose.
-- `scene.mjs` paints the pose.
-- `node examples/influenza/build.mjs` writes `influenza.html`. `--dark` writes the dark page.
-- `Influenza.jsx` is the same scene for a React page.
+`examples/norovirus/` is the naked T=3 capsid. ViralZone supplies the cycle. Prasad et al. 1994 and PDB 1IHM supply the diameter, the 90 dimers, and the shell radii. HHMI is not a source for it.
 
-HHMI's Virus Explorer is the cycle (bind, endocytosis, low pH, fusion, release of the eight segments). Harris et al. 2006 supply the spike counts and the tip lengths. The drawing shows a facing handful of spikes, and the caption says so. It does not pretend to be a tomogram.
-
-Nuclear import, transcription, and cap-snatching are real and are not in this figure. Do not add a fake nucleus to suggest them.
+Nuclear import, transcription, and replication factories are real and are not in these figures. Do not add a fake compartment to suggest them.
 
 ## Craft, short form
 
 `references/craft.md` is the long version.
 
 - Solids, not wireframes. One outline around a smooth body. Shade inside it.
-- Membrane, shell, and spikes are separate tones. One accent is lit: HA while it binds and springs, the RNA rods while they leave, NA while it clears the surface.
-- A line ends on a part. A stalk starts on the envelope or on a membrane tile and ends in a head.
+- Membrane, shell, and spikes are separate tones. One accent is lit: the part the stage is about.
+- A line ends on a part. A stalk starts on the shell or on a membrane tile and ends in a head.
 - Thickness of a stalk is a drawing weight so the part reads at card size. Lengths are the measured ones. The readout never presents a drawing weight as a measurement.
-- Colour is not the explanation. The monochrome card is the figure. Do not paint HA red and NA blue to make a diagram.
+- Colour is not the explanation. The monochrome card is the figure.
 - The closed particle is one shaded ball. The apart view may open that ball into bands so the inside is visible.
 
 ## Kit
@@ -69,13 +67,14 @@ Nuclear import, transcription, and cap-snatching are real and are not in this fi
 |---|---|
 | `kit/math.mjs` | Vectors, the camera, fit, depth. |
 | `kit/iso.mjs` | Prisms, rods, a shaded ball, SVG paint. |
-| `kit/bio.mjs` | Membrane tiles, a glycoprotein, HA/NA/M2 spikes, envelope, RNP rods. |
+| `kit/bio.mjs` | Membrane tiles, a glycoprotein, oligomer spikes, envelope, genome rods. |
 | `kit/page.mjs` | The card, both themes, the page wrapper. |
 | `scripts/bundle.mjs` | Inlines those modules into one standalone page. |
 
 ## References
 
-- `references/influenza.md`: the numbers, what is measured, what is schematic.
+- `references/databases.md`: where to search for any pathogen or molecule, and what each record may contribute.
+- `references/influenza.md`, `references/norovirus.md`: the numbers for the two worked figures.
 - `references/sources.md`: how to take a URL, and what this skill will not produce.
 - `references/craft.md`: parts, tones, order, motion, the failure modes.
 - `references/kit.md`: the functions the figure actually calls.

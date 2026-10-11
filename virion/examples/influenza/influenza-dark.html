@@ -404,9 +404,9 @@ function spike(anchor, dir, { length, head, stalk, lobes, fusion = 0, peptide = 
   return items;
 }
 
-function envelope(center, radius, cam, { skipBottom = 0, spread = 0, cutaway = false, tone = "mid" } = {}) {
-  if (spread < 0.8 && !cutaway) return [paintItem(ball(center, radius, cam), { tone })];
-  const painted = sphere(center, radius, cam, { bands: 12, skipBottom, spread }).map((mesh) => paintItem(mesh, { tone })).filter(Boolean);
+function envelope(center, radius, cam, { skipBottom = 0, spread = 0, cutaway = false, tone = "mid", lit = false, bands = 12 } = {}) {
+  if (spread < 0.8 && !cutaway) return [paintItem(ball(center, radius, cam), { tone, lit })];
+  const painted = sphere(center, radius, cam, { bands, skipBottom, spread }).map((mesh) => paintItem(mesh, { tone, lit })).filter(Boolean);
   if (!cutaway) return painted;
   const ordered = [...painted].sort((a, b) => a.depth - b.depth);
   return ordered.slice(0, Math.max(3, Math.ceil(ordered.length * 0.68)));

@@ -29,6 +29,7 @@ const body = plateHtml({
   caption: captionText(),
   sources,
   stages: STAGES,
+  label: "Influenza particle. Drag to turn. Keys 1 to 5 choose a stage.",
   body: `<div data-scene>${sceneSvg(opening)}</div>`,
 });
 

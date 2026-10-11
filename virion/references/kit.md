@@ -22,9 +22,9 @@ Plain ESM. No dependencies. World axes are x and y on the membrane, z up, in nan
 
 `glycoprotein(base, height, headR, cam)`. `headR` of 0 leaves the stalk.
 
-`spike(anchor, dir, spec, cam, { tone, lit })`. `spec` is `{ length, head, stalk, lobes, spread, fusion, peptide }`. Three lobes and a modest head read as HA. Four lobes, a wider head and a thinner stalk read as NA.
+`spike(anchor, dir, spec, cam, { tone, lit })`. `spec` is `{ length, head, stalk, lobes, spread, fusion, peptide }`. `lobes` is the published oligomer. Two lobes read as a dimer arch (norovirus P domains). Three lobes and a modest head read as a trimer such as influenza HA. Four lobes, a wider head and a thinner stalk read as a tetramer such as influenza NA.
 
-`envelope(center, radius, cam, { spread, cutaway, tone })`. No spread and no cutaway uses `ball`. Otherwise it draws bands and, if `cutaway`, drops the nearest bands so the inside shows.
+`envelope(center, radius, cam, { spread, cutaway, tone, lit, bands })`. No spread and no cutaway uses `ball`. Otherwise it draws bands and, if `cutaway`, drops the nearest bands so the inside shows. `lit` marks the shell as the part this stage is about.
 
 `rnpRod(from, to, cam, { lit })` is a rod with a few rings. The rings are the helical nucleoprotein, drawn as a weight, not a measured pitch.
 

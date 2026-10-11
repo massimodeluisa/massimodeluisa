@@ -62,11 +62,12 @@ function escape(text) {
   return String(text).replace(/[&<>"]/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[ch]);
 }
 
-export function plateHtml({ fig, title, hint, readout, keys, caption, sources, body, stages }) {
+export function plateHtml({ fig, title, hint, readout, keys, caption, sources, body, stages, label }) {
   const keyHtml = keys.map((key) => `<span class="virion-key"><i class="virion-swatch" data-mark="${key.mark}"></i>${escape(key.label)}</span>`).join("");
   const stageHtml = stages.map((stage) => `<button type="button" data-stage="${stage.at}" aria-pressed="false">${escape(stage.key)} ${escape(stage.label)}</button>`).join("");
   const sourceHtml = sources.map((source) => `<a href="${escape(source.url)}">${escape(source.label)}</a>`).join(" · ");
-  return `<figure class="virion-figure"><div class="virion-plate"><div class="virion-corners" aria-hidden="true"><span class="virion-corner" data-corner="fig">${escape(fig)}</span><span class="virion-corner" data-corner="title">${escape(title)}</span><span class="virion-corner" data-corner="hint">${escape(hint)}</span><span class="virion-corner" data-corner="readout" data-readout>${escape(readout)}</span></div><div class="virion-stage" tabindex="0" data-stagebox role="application" aria-label="Influenza particle. Drag to turn. Keys 1 to 5 choose a stage.">${body}</div></div><figcaption class="virion-legend"><span class="virion-keys">${keyHtml}</span><span class="virion-caption">${escape(caption)}</span><span class="virion-stages" data-stages>${stageHtml}</span><span class="virion-sources">${sourceHtml}</span></figcaption></figure>`;
+  const accessible = label || "Particle. Drag to turn. Number keys choose a stage.";
+  return `<figure class="virion-figure"><div class="virion-plate"><div class="virion-corners" aria-hidden="true"><span class="virion-corner" data-corner="fig">${escape(fig)}</span><span class="virion-corner" data-corner="title">${escape(title)}</span><span class="virion-corner" data-corner="hint">${escape(hint)}</span><span class="virion-corner" data-corner="readout" data-readout>${escape(readout)}</span></div><div class="virion-stage" tabindex="0" data-stagebox role="application" aria-label="${escape(accessible)}">${body}</div></div><figcaption class="virion-legend"><span class="virion-keys">${keyHtml}</span><span class="virion-caption">${escape(caption)}</span><span class="virion-stages" data-stages>${stageHtml}</span><span class="virion-sources">${sourceHtml}</span></figcaption></figure>`;
 }
 
 export function pageHtml({ title, theme, body, script }) {

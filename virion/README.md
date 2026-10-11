@@ -1,6 +1,6 @@
 # Virion
 
-An agent skill that explains a virus by drawing the particle. The first figure is influenza A: one virion on a patch of membrane, from binding to budding.
+An agent skill that explains a pathogen, a virus, or a molecular assembly by drawing the object. Influenza A is the enveloped figure. Norwalk virus is the naked capsid. Any other particle starts from the public structure databases, not from the HHMI list.
 
 The working rule is the same one as [Anatomy](https://github.com/wheresryan22/anatomy): the object is the explanation. Spikes, pores, and RNA rods move. The numbers on the card come from the model that moves them. This kit is not a copy of Anatomy's. It is a smaller one for membranes and spikes, held to that standard.
 
@@ -16,7 +16,17 @@ Open [`examples/influenza/influenza.html`](examples/influenza/influenza.html). D
   <img src="examples/influenza/shots/uncoat.png" width="640" alt="The same particle in a membrane pit at pH 5, with eight RNA rods released below the membrane.">
 </p>
 
-The cycle follows the [HHMI Virus Explorer influenza page](https://media.hhmi.org/biointeractive/click/virus-explorer/influenza.html). Spike counts and tip lengths are from Harris et al., PNAS 2006. The caption on the figure names every source. What the sources do not measure is marked as schematic in [`references/influenza.md`](references/influenza.md).
+The influenza cycle follows the [HHMI Virus Explorer influenza page](https://media.hhmi.org/biointeractive/click/virus-explorer/influenza.html). Spike counts and tip lengths are from Harris et al., PNAS 2006. The caption on the figure names every source. What the sources do not measure is marked as schematic in [`references/influenza.md`](references/influenza.md).
+
+## A second architecture
+
+Open [`examples/norovirus/norovirus.html`](examples/norovirus/norovirus.html). Keys 1–4 rest on dock, enter, uncoat, and lyse. This particle is not on the HHMI list. The cycle is the [ViralZone norovirus page](https://viralzone.expasy.org/194). The 38 nm T=3 capsid, 90 dimers, and the shell radii are from Prasad et al. 1994 and [PDB 1IHM](https://www.rcsb.org/structure/1IHM).
+
+<p>
+  <img src="examples/norovirus/shots/dock.png" width="640" alt="Isometric Norwalk virus capsid docked on a membrane patch. The readout shows 38 nm, T=3, 180 copies of VP1, and RNA still inside.">
+</p>
+
+Where to look up any other pathogen or molecule — PDB, EMDB, VIPERdb, NIH 3D, Viro3D, AlphaFold, PHIL — is [`references/databases.md`](references/databases.md). HHMI covers only the viruses they drew.
 
 ## Install
 
@@ -34,6 +44,8 @@ Rebuild the page with Node 20 or later. There is nothing to install.
 node examples/influenza/check.mjs
 node examples/influenza/build.mjs
 node examples/influenza/build.mjs --dark
+node examples/norovirus/check.mjs
+node examples/norovirus/build.mjs
 ```
 
 `examples/influenza/Influenza.jsx` is the same scene as a React client component. It imports the model. It does not carry a second set of numbers.
@@ -44,8 +56,9 @@ node examples/influenza/build.mjs --dark
 virion/
 ├── SKILL.md
 ├── kit/                 camera, solids, biological parts, the card
-├── references/          influenza facts, sources, craft, kit API
-├── examples/influenza/  facts, model, scene, the built pages
+├── references/          databases, the two worked particles, sources, craft, kit API
+├── examples/influenza/  enveloped particle
+├── examples/norovirus/  naked T=3 capsid from ViralZone and PDB 1IHM
 └── evals/evals.json
 ```
 

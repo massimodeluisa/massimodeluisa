@@ -1,0 +1,32 @@
+export const FACTS = {
+  viralzone: {
+    url: "https://viralzone.expasy.org/194",
+    diameterNm: [38, 40],
+    tNumber: 3,
+    vp1: 180,
+    emptySmallNm: 23,
+    emptySmallVp1: 60,
+    genomeKb: [7.3, 8.3],
+    genome: "one linear positive-sense RNA",
+    receptor: "histo-blood group antigens",
+    entry: "attachment, then endocytosis that does not use clathrin or caveolin, then uncoating and release of the RNA into the cytoplasm",
+    exit: "release of new particles by cell lysis",
+  },
+  prasad1994: {
+    url: "https://doi.org/10.1128/jvi.68.8.5117-5125.1994",
+    diameterNm: 38,
+    dimers: 90,
+    shellInnerNm: 11,
+    shellOuterNm: 15,
+    symmetry: "T=3",
+  },
+  pdb: {
+    id: "1IHM",
+    url: "https://www.rcsb.org/structure/1IHM",
+    pdbe: "https://www.ebi.ac.uk/pdbe/entry/pdb/1ihm",
+    citation: "Prasad et al., Science 1999",
+    doi: "https://doi.org/10.1126/science.286.5438.287",
+    resolutionA: 3.4,
+    chains: "A, B, and C, the three quasi-equivalent copies of VP1 in the asymmetric unit",
+  },
+};
