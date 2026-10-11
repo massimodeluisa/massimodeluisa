@@ -19,6 +19,7 @@ Find all my contacts at [deluisa.bio/massimo](https://deluisa.bio/massimo).
 * [isready.ai](https://isready.ai), an open-source audit of whether AI can actually read a site
 * [sidus.tools](https://sidus.tools), open-source space engineering tools in SI
 * [Images in motion](https://iim.smartsquad.io), an open-source Js,React,Expo,Vue CSS mosaic that keeps moving
+* [Virion](virion/), an agent skill that turns a virus description into an interactive isometric figure. The first figure is influenza A entry and exit
 * [recursive-decomposition-skill](https://github.com/massimodeluisa/recursive-decomposition-skill), long-context work split until it fits
 * [nerdfonts-skill](https://github.com/massimodeluisa/nerdfonts-skill), Nerd Fonts glyphs for any icon
 * [rust-best-practices-skill](https://github.com/massimodeluisa/rust-best-practices-skill), write and review production Rust against official docs
