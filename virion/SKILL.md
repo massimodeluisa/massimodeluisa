@@ -13,7 +13,9 @@ HHMI Virus Explorer is a plain-language cycle for a short list of viruses. It is
 
 ## The rule
 
-**The object is the explanation.** Do not draw boxes, arrows, or floating labels. The spike that lengthens is the fusion spring. The arches that touch the sugars are the capsid dimers. The strand that leaves through the shell is the genome. If a step cannot be shown by a part moving, it does not belong in the figure yet.
+**The object is the explanation.** The spike that lengthens is the fusion spring. The arches that touch the sugars are the capsid dimers. The strand that leaves through the shell is the genome. If a step cannot be shown by a part moving, it does not belong in the figure yet.
+
+Name a part the way a Gray's Anatomy plate does. The name sits in the margin, in italic, and a plain line runs from that name to the part. No arrowhead, no box, and no word written on the part itself. The line is recomputed from the same projection as the solids, so a turn keeps the name attached.
 
 Every number in the readout is computed by the model that places the parts. A count you type into the caption and a different count you type into the drawing is a bug. Literature numbers live in a facts module. The model imports them. The caption is filled from that same module.
 
@@ -38,7 +40,7 @@ If a structure or step is not in the source, omit it or mark it in the caption a
 5. **Parts, then code.** List the parts. Each part sits on another part. `lobes` on a spike is the published oligomer: 2 dimer, 3 trimer, 4 tetramer.
 6. **One model.** `pose(u)` returns positions and the readout. The scene only draws that object.
 7. **Draw with the kit.** Solids, depth sorted. Camera fit is stable across the whole cycle so the object does not zoom as it moves. `references/kit.md`.
-8. **Frame it.** Fig number, title, hint, live readout, legend and caption under the card. Words stay out of the drawing.
+8. **Frame it.** Fig number, title, hint, live readout, legend and caption under the card. In the drawing, a Gray's leader: italic name in the margin, plain line ending on the part.
 9. **Make it live.** Drag turns the object. Number keys rest on the stages. Space plays the cycle. E eases it apart. `[` and `]` change the pace. Motion eases. Reduced motion jumps and does not play.
 10. **Check it.** `node examples/<name>/check.mjs` must pass. Then open the page and look.
 
@@ -58,7 +60,7 @@ Nuclear import, transcription, and replication factories are real and are not in
 
 - Solids, not wireframes. One outline around a smooth body. Shade inside it.
 - Membrane, shell, and spikes are separate tones. One accent is lit: the part the stage is about.
-- A line ends on a part. A stalk starts on the shell or on a membrane tile and ends in a head.
+- A line ends on a part. A stalk starts on the shell or on a membrane tile and ends in a head. A name in the margin ends on a part the same way: a plain leader, no arrowhead.
 - Thickness of a stalk is a drawing weight so the part reads at card size. Lengths are the measured ones. The readout never presents a drawing weight as a measurement.
 - Colour is not the explanation. The monochrome card is the figure.
 - The closed particle is one shaded ball. The apart view may open that ball into bands so the inside is visible.

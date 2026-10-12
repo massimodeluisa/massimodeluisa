@@ -49,6 +49,7 @@
       "prompt": "Draw the structure of SARS-CoV-2. One particle, from the published cryo-EM virion, not an infection protocol.",
       "expect": [
         "The shape of Frontiers in Virology 2022 Figure 1: three-lobed spikes, membrane protein, nucleocapsid on RNA",
+        "Gray's leaders: an italic name in the margin and a plain line ending on the part",
         "Ke et al. 2020 for the 91 nm envelope",
         "A readout that counts only trimers and beads the picture draws",
         "PDB 6VXX named as the closed prefusion trimer",

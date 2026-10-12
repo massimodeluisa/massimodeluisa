@@ -1,8 +1,8 @@
-import { add, depthOf, fitOrigin, mul, pathOf, project } from "../../kit/math.mjs";
-import { ball, dotSvg, haloSvg, paintItem, rod, sortItems } from "../../kit/iso.mjs";
+import { add, cross, depthOf, mul, norm, pathOf, project, viewDir } from "../../kit/math.mjs";
+import { ball, dotSvg, haloSvg, leadersSvg, paintItem, rod, sortItems } from "../../kit/iso.mjs";
 import { envelope } from "../../kit/bio.mjs";
 import { FACTS } from "./facts.mjs";
-import { FRAME, VIEW } from "./model.mjs";
+import { FRAME, GUTTER, VIEW, plateCamera } from "./model.mjs";
 
 export { FRAME, VIEW };
 
@@ -52,8 +52,116 @@ function disk(center, radius, cam) {
   return items;
 }
 
+function screenOf(point, cam) {
+  const [x, y] = project(point, cam);
+  return { x, y };
+}
+
+function apart(point, others) {
+  let best = Infinity;
+  for (const other of others) best = Math.min(best, Math.hypot(point.x - other.x, point.y - other.y));
+  return best;
+}
+
+function spanOf(points) {
+  let span = Infinity;
+  for (let i = 0; i < points.length; i++) {
+    for (let j = i + 1; j < points.length; j++) span = Math.min(span, Math.hypot(points[i].x - points[j].x, points[i].y - points[j].y));
+  }
+  return span;
+}
+
+function outerPoint(points) {
+  const mid = VIEW.width / 2;
+  return points.slice().sort((a, b) => Math.abs(b.x - mid) - Math.abs(a.x - mid))[0];
+}
+
+function rayClear(point, obstacles) {
+  const side = point.x < VIEW.width / 2 ? "left" : "right";
+  const margin = side === "left" ? 140 : VIEW.width - 140;
+  let clear = 80;
+  for (const other of obstacles) {
+    if (Math.hypot(other.x - point.x, other.y - point.y) < 3) continue;
+    const between = side === "left" ? other.x > margin && other.x < point.x - 7 : other.x < margin && other.x > point.x + 7;
+    if (!between) continue;
+    clear = Math.min(clear, Math.abs(other.y - point.y));
+  }
+  return clear;
+}
+
+function takeNames(picks) {
+  const taken = [];
+  const width = VIEW.width;
+  for (const pick of picks) {
+    const ranked = pick.candidates.slice().sort((a, b) => pick.score(b) - pick.score(a));
+    const fits = (cand) => taken.every((other) => {
+      const sameSide = (cand.x < width / 2) === (other.x < width / 2);
+      if (sameSide && Math.abs(cand.y - other.y) < 38) return false;
+      return Math.hypot(cand.x - other.x, cand.y - other.y) >= 26;
+    });
+    const separated = (cand) => Math.min(...taken.map((other) => Math.hypot(other.x - cand.x, other.y - cand.y)), Infinity);
+    const cand = ranked.find(fits) || ranked.slice().sort((a, b) => separated(b) - separated(a))[0];
+    if (cand) taken.push({ name: pick.name, x: cand.x, y: cand.y });
+  }
+  return taken;
+}
+
+function plateNames(state, cam) {
+  if (state.section) {
+    const lobes = state.rim.filter((spike) => spike.draw).map((spike) => {
+      const pts = spike.lobes.map((p) => screenOf(p, cam));
+      return { ...outerPoint(pts), span: spanOf(pts) };
+    });
+    const channels = state.channels.filter((channel) => channel.draw).map((channel) => screenOf(mul(add(channel.from, channel.to), 0.5), cam));
+    const hooks = state.hooks.filter((hook) => hook.draw).map((hook) => screenOf(hook.bend, cam));
+    const beads = state.beads.map((at) => screenOf(at, cam));
+    const strands = state.strand.map(([from, to]) => screenOf(mul(add(from, to), 0.5), cam));
+    const wall = state.membraneInner + 3;
+    const band = Array.from({ length: 96 }, (_, i) => {
+      const a = (i / 96) * Math.PI * 2;
+      return screenOf([Math.cos(a) * wall, Math.sin(a) * wall, 0], cam);
+    });
+    return takeNames([
+      { name: "Spike protein (S)", candidates: lobes, score: (p) => p.span * 2 + rayClear(p, lobes) },
+      { name: "Envelope protein (E)", candidates: channels, score: (p) => apart(p, [...hooks, ...lobes]) * 4 + rayClear(p, [...hooks, ...lobes]) },
+      { name: "Membrane protein (M)", candidates: hooks, score: (p) => apart(p, [...lobes, ...channels]) * 4 + rayClear(p, [...lobes, ...channels]) },
+      { name: "Envelope", candidates: band, score: (p) => apart(p, [...lobes, ...hooks, ...channels, ...beads]) * 4 },
+      { name: "Nucleocapsid (N)", candidates: beads, score: (p) => apart(p, lobes) },
+      { name: "Genomic RNA", candidates: strands, score: (p) => apart(p, beads) },
+    ]);
+  }
+  const view = viewDir(state.cam);
+  const right = norm(cross(view, Math.abs(view[2]) < 0.9 ? [0, 0, 1] : [1, 0, 0]));
+  const lift = norm(cross(right, view));
+  const lobes = [];
+  const allLobes = [];
+  for (const spike of state.spikes) {
+    if (!spike.draw) continue;
+    const pts = spike.lobes.map((p) => screenOf(p, cam));
+    allLobes.push(...pts);
+    const facing = spike.dir[0] * view[0] + spike.dir[1] * view[1] + spike.dir[2] * view[2];
+    if (facing < 0.4) continue;
+    const span = spanOf(pts);
+    if (span < 14) continue;
+    lobes.push({ ...outerPoint(pts), span });
+  }
+  const marks = state.marks.filter((mark) => mark.draw).map((mark) => screenOf(mark.at, cam));
+  const origin = screenOf(state.center, cam);
+  const limb = Array.from({ length: 96 }, (_, i) => {
+    const a = (i / 96) * Math.PI * 2;
+    const dir = norm(add(mul(right, Math.cos(a)), mul(lift, Math.sin(a))));
+    const edge = screenOf(add(state.center, mul(dir, state.envelopeR * 0.98)), cam);
+    return { x: edge.x * 0.82 + origin.x * 0.18, y: edge.y * 0.82 + origin.y * 0.18 };
+  });
+  return takeNames([
+    { name: "Spike protein (S)", candidates: lobes, score: (p) => rayClear(p, [...allLobes, ...marks]) + p.span },
+    { name: "Envelope", candidates: limb, score: (p) => apart(p, [...allLobes, ...marks]) },
+    { name: "Membrane protein (M)", candidates: marks, score: (p) => apart(p, allLobes) },
+  ]);
+}
+
 export function sceneSvg(state) {
-  const cam = fitOrigin(FRAME, state.cam, VIEW.width, VIEW.height, 36);
+  const cam = plateCamera(state.cam);
   const items = [haloSvg([0, 0, 0], 58, 30, cam)].map((svg) => ({ depth: -1e6, svg }));
   if (state.section) {
     items.push(...disk(state.center, state.membraneInner - 0.4, cam));
@@ -86,8 +194,9 @@ export function sceneSvg(state) {
     }
   }
   const body = sortItems(items).map((item) => item.svg).join("");
-  const label = `A SARS-CoV-2 particle. The outside is a crown of three-lobed spike trimers with membrane marks between them. Key 2 cuts the envelope and shows the nucleocapsid beads on the genomic RNA.`;
-  return `<svg class="v-svg" viewBox="0 0 ${VIEW.width} ${VIEW.height}" role="img" aria-label="${label}">${body}</svg>`;
+  const names = leadersSvg(plateNames(state, cam), { width: VIEW.width, height: VIEW.height, gutter: GUTTER });
+  const label = `A SARS-CoV-2 particle. Italic names in the margin lead to the spike, the membrane protein, the envelope, and, in the cut, the envelope protein, the nucleocapsid, and the genomic RNA.`;
+  return `<svg class="v-svg" viewBox="0 0 ${VIEW.width} ${VIEW.height}" role="img" aria-label="${label}">${body}${names}</svg>`;
 }
 
 export function captionText() {

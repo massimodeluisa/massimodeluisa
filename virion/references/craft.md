@@ -44,5 +44,5 @@ One line, from the model: pH, spring, how many HA are within reach, how many hav
 - A membrane that is only a grid of boxes, with no thickness and no pit when the stage is entry.
 - Spikes that float off the surface, or a fusion needle that does not meet the membrane while `inserted` is greater than zero.
 - A readout that still says `bound 5` after the geometry has moved the heads away.
-- Labels, arrows, or a colour legend inside the drawing.
+- An arrowhead, a boxed caption, or a name written across the part. A Gray's leader is a plain line from an italic name in the margin to the part.
 - A nucleus, a second cell, or a coat protein the source did not name.

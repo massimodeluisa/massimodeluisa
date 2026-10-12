@@ -14,7 +14,7 @@ Plain ESM. No dependencies. World axes are x and y on the membrane, z up, in nan
 
 `ball(center, radius, cam)` is one mesh. The outline is the hull of the sphere. The shades are the facing quads. Use this for a closed envelope.
 
-`solidSvg(mesh, { tone, lit, edge })` paints it. `edge: false` is for tiles that should merge into one sheet. `paintItem` wraps that with the mesh depth. `sortItems` paints far to near. `haloSvg` and `dotSvg` are the soft ground and the small marks on a tile.
+`solidSvg(mesh, { tone, lit, edge })` paints it. `edge: false` is for tiles that should merge into one sheet. `paintItem` wraps that with the mesh depth. `sortItems` paints far to near. `haloSvg` and `dotSvg` are the soft ground and the small marks on a tile. `leadersSvg(labels, { width, height, gutter })` draws a Gray's plate: each label is `{ name, x, y }` in screen pixels, the italic name stays in the margin, and a plain line ends on that point.
 
 ## bio.mjs
 

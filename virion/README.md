@@ -30,10 +30,10 @@ Where to look up any other pathogen or molecule — PDB, EMDB, VIPERdb, NIH 3D, 
 
 ## A resting virion
 
-Open [`examples/sars-cov-2/sars-cov-2.html`](examples/sars-cov-2/sars-cov-2.html). Key 1 is the outside of the particle. Key 2 cuts the envelope. The shape follows Figure 1 of [Frontiers in Virology, 12 January 2022](https://doi.org/10.3389/fviro.2021.815388): each spike is three lobes on one stalk, the small marks are the membrane protein, and the cut shows nucleocapsid beads on the genomic RNA. The envelope is 91 ± 11 nm, from Ke et al. The readout counts the trimers and beads in the picture. The closed prefusion fit is [PDB 6VXX](https://www.rcsb.org/structure/6VXX).
+Open [`examples/sars-cov-2/sars-cov-2.html`](examples/sars-cov-2/sars-cov-2.html). Key 1 is the outside of the particle. Key 2 cuts the envelope. The shape follows Figure 1 of [Frontiers in Virology, 12 January 2022](https://doi.org/10.3389/fviro.2021.815388): each spike is three lobes on one stalk, the small marks are the membrane protein, and the cut shows nucleocapsid beads on the genomic RNA. Italic names in the margin lead to those parts. The envelope is 91 ± 11 nm, from Ke et al. The readout counts the trimers and beads in the picture. The closed prefusion fit is [PDB 6VXX](https://www.rcsb.org/structure/6VXX).
 
 <p>
-  <img src="examples/sars-cov-2/shots/crown.png" width="640" alt="SARS-CoV-2 particle covered with three-lobed spike trimers and small membrane marks. The readout counts the trimers in view.">
+  <img src="examples/sars-cov-2/shots/crown.png" width="640" alt="SARS-CoV-2 particle. Italic names in the margin lead to a spike trimer, a membrane mark, and the envelope.">
 </p>
 
 ## Install

@@ -144,3 +144,49 @@ export function paintItem(mesh, style) {
   if (!mesh) return null;
   return { depth: mesh.depth, svg: solidSvg(mesh, style) };
 }
+
+function xml(text) {
+  return String(text).replace(/[&<>"]/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[ch]);
+}
+
+export function leadersSvg(labels, { width, height, gutter = 148 } = {}) {
+  const left = [];
+  const right = [];
+  for (const label of labels) {
+    if (!Number.isFinite(label.x) || !Number.isFinite(label.y)) continue;
+    (label.x < width / 2 ? left : right).push(label);
+  }
+  left.sort((a, b) => a.y - b.y);
+  right.sort((a, b) => a.y - b.y);
+  const place = (items) => {
+    const gap = 32;
+    const top = 36;
+    const bottom = height - 20;
+    const rows = [];
+    for (const item of items) {
+      const previous = rows.length ? rows[rows.length - 1] : top - gap;
+      rows.push(Math.max(previous + gap, Math.min(item.y, bottom)));
+    }
+    const overflow = rows.length ? rows[rows.length - 1] - bottom : 0;
+    if (overflow > 0) {
+      for (let i = 0; i < rows.length; i++) rows[i] = Math.max(top, rows[i] - overflow);
+    }
+    return rows;
+  };
+  const leftY = place(left);
+  const rightY = place(right);
+  const row = (item, y, side) => {
+    const widthOf = Math.max(48, item.name.length * 6.2);
+    const textX = side === "left" ? 16 : width - 16;
+    const inner = side === "left" ? Math.min(gutter - 10, 16 + widthOf + 8) : Math.max(width - gutter + 10, width - 16 - widthOf - 8);
+    const yLine = y - 4;
+    const elbow = side === "left" ? inner + 14 : inner - 14;
+    const crossed = side === "left" ? item.x < elbow + 8 : item.x > elbow - 8;
+    const d = crossed
+      ? `M${inner.toFixed(1)} ${yLine.toFixed(1)}L${item.x.toFixed(1)} ${item.y.toFixed(1)}`
+      : `M${inner.toFixed(1)} ${yLine.toFixed(1)}L${elbow.toFixed(1)} ${yLine.toFixed(1)}L${item.x.toFixed(1)} ${item.y.toFixed(1)}`;
+    const anchor = side === "left" ? "start" : "end";
+    return `<text class="v-label" x="${textX}" y="${y.toFixed(1)}" text-anchor="${anchor}">${xml(item.name)}</text><path class="v-leader" d="${d}"/>`;
+  };
+  return `${left.map((item, i) => row(item, leftY[i], "left")).join("")}${right.map((item, i) => row(item, rightY[i], "right")).join("")}`;
+}

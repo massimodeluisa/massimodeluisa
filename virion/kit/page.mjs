@@ -23,7 +23,9 @@ body{margin:0;background:var(--v-page);color:var(--v-ink);font:15px/1.55 ui-sans
 .virion-corner[data-corner="hint"]{left:0;bottom:0;letter-spacing:.08em;text-transform:uppercase;max-width:42%}
 .virion-corner[data-corner="readout"]{right:0;bottom:0;color:var(--v-ink);font-size:10.5px;font-variant-numeric:tabular-nums;text-align:right;max-width:68%;white-space:nowrap}
 .v-svg{display:block;width:100%;height:auto;overflow:visible}
-.v-svg path,.v-svg circle,.v-svg ellipse{vector-effect:non-scaling-stroke}
+.v-svg path,.v-svg circle,.v-svg ellipse,.v-svg .v-leader{vector-effect:non-scaling-stroke}
+.v-label{font:italic 13px/1.2 Palatino,"Palatino Linotype","Iowan Old Style",Georgia,serif;fill:var(--v-strong)}
+.v-leader{fill:none;stroke:var(--v-strong);stroke-width:.85px;stroke-linecap:round;stroke-linejoin:round}
 .v-fill{fill:var(--v-paper);stroke:none}
 .v-shade{stroke:none}
 .v-shade[data-shade="0"]{fill:var(--v-s0)}

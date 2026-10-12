@@ -12,7 +12,14 @@ export const STAGES = [
   { id: "section", label: "Section", at: 1, key: "2" },
 ];
 
-export const VIEW = { width: 720, height: 520 };
+export const VIEW = { width: 720, height: 560 };
+export const GUTTER = 150;
+
+export function plateCamera(cam) {
+  const fitted = fitOrigin(FRAME, cam, VIEW.width - GUTTER * 2, VIEW.height, 16);
+  fitted.origin = [fitted.origin[0] + GUTTER, fitted.origin[1]];
+  return fitted;
+}
 
 export const FRAME = [
   [-70, -70, -62],
@@ -65,7 +72,7 @@ export function pose(u, { azimuth = -18, elevation = 50, explode = 0 } = {}) {
     const spec = club(add(center, mul(normal, R)), normal, index * 0.85);
     return { ...spec, draw: !section && facingOf(normal, view) > -0.08 };
   });
-  const fitted = fitOrigin(FRAME, cam, VIEW.width, VIEW.height, 36);
+  const fitted = plateCamera(cam);
   const ranked = spikes
     .map((spike, index) => ({ index, depth: depthOf(spike.head, fitted), at: project(spike.head, fitted) }))
     .filter((item) => spikes[item.index].draw)

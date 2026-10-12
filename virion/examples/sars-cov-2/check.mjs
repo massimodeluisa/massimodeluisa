@@ -1,7 +1,7 @@
-import { fitOrigin, project } from "../../kit/math.mjs";
+import { project } from "../../kit/math.mjs";
 import { FACTS } from "./facts.mjs";
-import { pose } from "./model.mjs";
-import { FRAME, VIEW, captionText, sceneSvg } from "./scene.mjs";
+import { plateCamera, pose } from "./model.mjs";
+import { captionText, sceneSvg } from "./scene.mjs";
 
 function expect(name, ok, detail) {
   if (!ok) throw new Error(`${name}: ${JSON.stringify(detail)}`);
@@ -12,7 +12,7 @@ function dist(a, b) {
 }
 
 function screenPoints(state, points) {
-  const cam = fitOrigin(FRAME, state.cam, VIEW.width, VIEW.height, 36);
+  const cam = plateCamera(state.cam);
   return points.map((p) => project(p, cam));
 }
 
@@ -55,11 +55,69 @@ expect("nucleocapsid beads sit apart", beadGap > 6, beadGap);
 const caption = captionText();
 expect("caption names the schematic and the counted mean", caption.includes(String(FACTS.frontiers.spikeDrawnNm)) && caption.includes(String(FACTS.ke.trimers)) && caption.includes("three lobes"), caption.slice(0, 80));
 
-for (const sample of [crown, section]) {
+function leaderEnds(svg) {
+  const ends = [];
+  for (const match of svg.matchAll(/<text class="v-label"[^>]*>([^<]+)<\/text><path class="v-leader" d="([^"]+)"/g)) {
+    const pts = [...match[2].matchAll(/[ML]([0-9.]+) ([0-9.]+)/g)];
+    const last = pts[pts.length - 1];
+    ends.push({ name: match[1], x: Number(last[1]), y: Number(last[2]) });
+  }
+  return ends;
+}
+
+function near(end, points, limit) {
+  return points.some((p) => Math.hypot(p[0] - end.x, p[1] - end.y) < limit);
+}
+
+const crownNames = ["Spike protein (S)", "Membrane protein (M)", "Envelope"];
+const sectionNames = ["Spike protein (S)", "Envelope protein (E)", "Membrane protein (M)", "Nucleocapsid (N)", "Genomic RNA", "Envelope"];
+const crownCam = plateCamera(crown.cam);
+const sectionCam = plateCamera(section.cam);
+const crownLobes = crown.spikes.filter((spike) => spike.draw).flatMap((spike) => spike.lobes.map((p) => project(p, crownCam)));
+const crownMarks = crown.marks.filter((mark) => mark.draw).map((mark) => project(mark.at, crownCam));
+const sectionLobes = section.rim.filter((spike) => spike.draw).flatMap((spike) => spike.lobes.map((p) => project(p, sectionCam)));
+const sectionChannels = section.channels.filter((channel) => channel.draw).map((channel) => project([(channel.from[0] + channel.to[0]) / 2, (channel.from[1] + channel.to[1]) / 2, (channel.from[2] + channel.to[2]) / 2], sectionCam));
+const sectionHooks = section.hooks.filter((hook) => hook.draw).map((hook) => project(hook.bend, sectionCam));
+const sectionBeads = section.beads.map((at) => project(at, sectionCam));
+const sectionStrands = section.strand.map(([from, to]) => project([(from[0] + to[0]) / 2, (from[1] + to[1]) / 2, (from[2] + to[2]) / 2], sectionCam));
+const bandR = section.membraneInner + 3;
+const sectionBand = Array.from({ length: 96 }, (_, i) => {
+  const a = (i / 96) * Math.PI * 2;
+  return project([Math.cos(a) * bandR, Math.sin(a) * bandR, 0], sectionCam);
+});
+const landings = {
+  0: {
+    "Spike protein (S)": [crownLobes, 2],
+    "Membrane protein (M)": [crownMarks, 2],
+  },
+  1: {
+    "Spike protein (S)": [sectionLobes, 2],
+    "Envelope protein (E)": [sectionChannels, 2],
+    "Membrane protein (M)": [sectionHooks, 2],
+    "Nucleocapsid (N)": [sectionBeads, 2],
+    "Genomic RNA": [sectionStrands, 2],
+    Envelope: [sectionBand, 4],
+  },
+};
+for (const [sample, names] of [[crown, crownNames], [section, sectionNames]]) {
   const svg = sceneSvg(sample);
   if (!svg.includes("<svg") || svg.includes("NaN") || svg.includes("undefined")) throw new Error(`bad svg at t=${sample.t}`);
   const solids = svg.split('class="v-solid"').length - 1;
   if (solids < 40) throw new Error(`only ${solids} solids at t=${sample.t}`);
+  const ends = leaderEnds(svg);
+  expect("a leader for every name", ends.length === names.length, ends.map((end) => end.name));
+  for (const name of names) expect(`plate names ${name}`, ends.some((end) => end.name === name), name);
+  for (let i = 0; i < ends.length; i++) {
+    for (let j = i + 1; j < ends.length; j++) {
+      const gap = Math.hypot(ends[i].x - ends[j].x, ends[i].y - ends[j].y);
+      expect("leaders end on different parts", gap > 24, [ends[i].name, ends[j].name, gap]);
+    }
+  }
+  for (const end of ends) {
+    const landing = landings[sample.t][end.name];
+    if (!landing) continue;
+    expect(`${end.name} ends on its part`, near(end, landing[0], landing[1]), end);
+  }
 }
 
 console.log("sars-cov-2 model ok", { crown: crown.shown, rim: section.shownRim, beads: section.shownN, crownGap: Math.round(crownGap), rimGap: Math.round(rimGap) });

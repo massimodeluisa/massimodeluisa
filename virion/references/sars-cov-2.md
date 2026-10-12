@@ -4,7 +4,7 @@ The structure of one particle, in the form of a published schematic.
 
 ## What is drawn
 
-Figure 1 of Frontiers in Virology, 12 January 2022, is the shape. Each spike is a trimer: one stalk and three lobes. Small marks in the envelope are the membrane protein. The cut shows short channels for the envelope protein, and nucleocapsid beads on the genomic RNA.
+Figure 1 of Frontiers in Virology, 12 January 2022, is the shape. Each spike is a trimer: one stalk and three lobes. Small marks in the envelope are the membrane protein. The cut shows short channels for the envelope protein, and nucleocapsid beads on the genomic RNA. Each of those parts is named in the margin. A plain line, without an arrowhead, runs from the italic name to the part.
 
 The envelope diameter is 91 ± 11 nm, the mean Ke et al. measured on 179 virions. That sits inside the review's 60–140 nm range. Spike length in the drawing is 11 nm, inside the review's 9–12 nm. Ke et al. counted 24 ± 9 prefusion trimers. This crown is the schematic, and the readout S counts only the trimers in the picture. The readout N counts the beads in the cut. Yao et al. counted 26 ± 11 ribonucleoproteins by cryo-electron tomography.
 
@@ -17,4 +17,4 @@ The envelope diameter is 91 ± 11 nm, the mean Ke et al. measured on 179 virions
 
 ## Left out
 
-Leader lines and words stay off the drawing. The legend names the parts. Postfusion spikes, ACE2, and fusion are left for another figure.
+Names stay in the margin. The line ends on the part, and no word is written across it. Postfusion spikes, ACE2, and fusion are left for another figure.
