@@ -22,7 +22,7 @@ const body = plateHtml({
   hint: "Drag to turn · 1 free · 2 bound",
   readout: opening.readout,
   keys: [
-    { mark: "lit", label: "The part this stage is about: the CD30 stalks, then the tails in TRAF2" },
+    { mark: "lit", label: "The part this stage is about: the CD30 stalks, then the short peptides on TRAF2" },
     { mark: "mid", label: "A patch of cell membrane" },
     { mark: "lo", label: "The TRAF2 trimer under the membrane" },
   ],

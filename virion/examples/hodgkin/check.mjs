@@ -1,6 +1,7 @@
 import { FACTS } from "./facts.mjs";
 import { pose } from "./model.mjs";
-import { sceneSvg } from "./scene.mjs";
+import { FRAME, sceneSvg, VIEW } from "./scene.mjs";
+import { fitOrigin, project } from "../../kit/math.mjs";
 
 function expect(name, ok, detail) {
   if (!ok) throw new Error(`${name}: ${JSON.stringify(detail)}`);
@@ -20,8 +21,35 @@ expect("free tails", free.bound === 0, free.bound);
 expect("bound tails", bound.bound === FACTS.pdb.peptides, bound.bound);
 expect("apart releases", apart.bound === 0, apart.bound);
 expect("traf drops", apart.center[2] < bound.center[2], [apart.center[2], bound.center[2]]);
-expect("readout", bound.readout.includes(`tails ${bound.bound}/${FACTS.pdb.peptides}`) && bound.readout.includes(`peptide ${FACTS.pdb.peptideResidues}`), bound.readout);
+expect("readout", bound.readout.includes(`tails ${bound.bound}/${FACTS.pdb.peptides}`) && bound.readout.includes(`TRAF2 ${FACTS.pdb.traf2}`), bound.readout);
 expect("free readout", free.readout.includes("tails 0/"), free.readout);
+expect("peptide stays in the caption", !bound.readout.includes("peptide"), bound.readout);
+
+function apartFrom(a, b) {
+  return Math.hypot(a[0] - b[0], a[1] - b[1], a[2] - b[2]);
+}
+for (let i = 0; i < bound.receptors.length; i++) {
+  for (let j = i + 1; j < bound.receptors.length; j++) {
+    const gap = apartFrom(bound.receptors[i].seat, bound.receptors[j].seat);
+    expect("protomers separable", gap > bound.receptors[i].radius * 2 * 0.85, gap);
+  }
+  const tail = bound.receptors[i].tail;
+  const span = apartFrom(tail.from, tail.to);
+  expect("peptide is a short stub", span > 2 && span < 4.2, span);
+  expect("free has no stub", free.receptors[i].tail === null, free.receptors[i].tail);
+}
+
+function screenGap(state) {
+  const cam = fitOrigin(FRAME, state.cam, VIEW.width, VIEW.height, 36);
+  const pts = state.receptors.map((item) => project(item.seat, cam));
+  let least = Infinity;
+  for (let i = 0; i < pts.length; i++) {
+    for (let j = i + 1; j < pts.length; j++) least = Math.min(least, Math.hypot(pts[i][0] - pts[j][0], pts[i][1] - pts[j][1]));
+  }
+  return least;
+}
+expect("three chains can be counted when free", screenGap(free) > 36, screenGap(free));
+expect("three chains can be counted when bound", screenGap(bound) > 36, screenGap(bound));
 
 for (const sample of [free, bound, apart]) {
   const svg = sceneSvg(sample);

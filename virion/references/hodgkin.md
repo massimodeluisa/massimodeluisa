@@ -16,7 +16,7 @@ CD30 is UniProt P28908, a transmembrane receptor.
 - PDB 1D01 is the only experimental CD30 entry UniProt lists. Chains G, H, and I are a peptide UniProt maps to residues 576–583. RCSB deposits each chain with sequence length 9.
 - The TRAF domain of TRAF2 in that entry is a C3 trimer. Biological assembly 2 is A3B3: three TRAF2 chains and three CD30 peptides. Resolution 2.00 Å. Ye et al., Molecular Cell 1999.
 
-The stalks above the membrane are schematic. The crystal does not contain the extracellular domain. AlphaFold has a prediction for the rest of P28908. It is not drawn, and it is not labeled as an experimental structure.
+The stalks above the membrane are schematic. The crystal does not contain the extracellular domain. The cytoplasmic stretch from the transmembrane helix to residue 576 is not in 1D01 either, so it is a gap, not a rod. A nine-residue peptide is a stub on each TRAF domain, not a beam from the membrane. AlphaFold has a prediction for the rest of P28908. It is not drawn, and it is not labeled as an experimental structure.
 
 NF-κB is named on the UniProt function line. It is not a part in this figure.
 
