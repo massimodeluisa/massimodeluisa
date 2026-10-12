@@ -28,6 +28,14 @@ Open [`examples/norovirus/norovirus.html`](examples/norovirus/norovirus.html). K
 
 Where to look up any other pathogen or molecule — PDB, EMDB, VIPERdb, NIH 3D, Viro3D, AlphaFold, PHIL — is [`references/databases.md`](references/databases.md). HHMI covers only the viruses they drew.
 
+## A resting virion
+
+Open [`examples/sars-cov-2/sars-cov-2.html`](examples/sars-cov-2/sars-cov-2.html). Keys 1 and 2 rest on the upright crown and the stalk hinge. E opens the envelope. This is the particle Ke et al. measured, not an entry cycle. The envelope is 91 ± 11 nm. The model places their mean of 24 prefusion trimers, and the readout counts only the ones facing the camera. The closed prefusion fit is [PDB 6VXX](https://www.rcsb.org/structure/6VXX).
+
+<p>
+  <img src="examples/sars-cov-2/shots/crown.png" width="640" alt="Isometric SARS-CoV-2 particle. The readout counts the prefusion spike trimers facing the camera, standing upright on a 91 nm envelope.">
+</p>
+
 ## Install
 
 The skill is the `virion/` folder, with `SKILL.md` at its root.
@@ -46,6 +54,8 @@ node examples/influenza/build.mjs
 node examples/influenza/build.mjs --dark
 node examples/norovirus/check.mjs
 node examples/norovirus/build.mjs
+node examples/sars-cov-2/check.mjs
+node examples/sars-cov-2/build.mjs
 ```
 
 `examples/influenza/Influenza.jsx` is the same scene as a React client component. It imports the model. It does not carry a second set of numbers.
@@ -56,9 +66,10 @@ node examples/norovirus/build.mjs
 virion/
 ├── SKILL.md
 ├── kit/                 camera, solids, biological parts, the card
-├── references/          databases, the two worked particles, sources, craft, kit API
+├── references/          databases, the worked particles, sources, craft, kit API
 ├── examples/influenza/  enveloped particle
 ├── examples/norovirus/  naked T=3 capsid from ViralZone and PDB 1IHM
+├── examples/sars-cov-2/ resting virion from Ke et al. 2020 and PDB 6VXX
 └── evals/evals.json
 ```
 

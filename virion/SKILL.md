@@ -48,6 +48,8 @@ If a structure or step is not in the source, omit it or mark it in the caption a
 
 `examples/norovirus/` is the naked T=3 capsid. ViralZone supplies the cycle. Prasad et al. 1994 and PDB 1IHM supply the diameter, the 90 dimers, and the shell radii. HHMI is not a source for it.
 
+`examples/sars-cov-2/` is the resting SARS-CoV-2 particle. Ke et al. 2020 supply the 91 nm envelope, the mean of 24 prefusion trimers, and the stalk hinge. The readout counts only the trimers facing the camera.
+
 Nuclear import, transcription, and replication factories are real and are not in these figures. Do not add a fake compartment to suggest them.
 
 ## Craft, short form
@@ -74,7 +76,7 @@ Nuclear import, transcription, and replication factories are real and are not in
 ## References
 
 - `references/databases.md`: where to search for any pathogen or molecule, and what each record may contribute.
-- `references/influenza.md`, `references/norovirus.md`: the numbers for the two worked figures.
+- `references/influenza.md`, `references/norovirus.md`, `references/sars-cov-2.md`: the numbers for the worked figures.
 - `references/sources.md`: how to take a URL, and what this skill will not produce.
 - `references/craft.md`: parts, tones, order, motion, the failure modes.
 - `references/kit.md`: the functions the figure actually calls.
