@@ -11,26 +11,25 @@ const here = dirname(fileURLToPath(import.meta.url));
 const theme = process.argv.includes("--dark") ? "dark" : "light";
 const opening = pose(0, {});
 const sources = [
+  { label: "Frontiers in Virology 2022, Figure 1", url: FACTS.frontiers.figure },
   { label: "Ke et al. 2020", url: FACTS.ke.url },
-  { label: "EMD-11493", url: FACTS.ke.emdb },
   { label: "PDB 6VXX", url: FACTS.pdb.url },
   { label: "Yao et al. 2020", url: FACTS.yao.url },
-  { label: "Turoňová et al. 2020", url: FACTS.turonova.url },
 ];
 const body = plateHtml({
   fig: "Fig 3",
   title: "SARS-CoV-2",
-  hint: "Drag to turn · 1 crown · 2 hinge",
+  hint: "Drag to turn · 1 crown · 2 section",
   readout: opening.readout,
   keys: [
-    { mark: "lit", label: "Prefusion spike trimers. They lean on the hinge." },
+    { mark: "lit", label: "Spike trimers. Three lobes on one stalk." },
     { mark: "mid", label: "Lipid envelope, 91 nm across" },
-    { mark: "lo", label: "Ribonucleoproteins, seen only when the envelope opens" },
+    { mark: "lo", label: "Membrane protein, the small marks. Envelope protein, the short channels in the cut." },
   ],
   caption: captionText(),
   sources,
   stages: STAGES,
-  label: "SARS-CoV-2 particle. Drag to turn. Key 1 stands the spikes up. Key 2 leans them. E opens the envelope.",
+  label: "SARS-CoV-2 particle. Drag to turn. Key 1 shows the outside. Key 2 cuts the envelope. E opens the same cut.",
   body: `<div data-scene>${sceneSvg(opening)}</div>`,
 });
 
@@ -109,7 +108,7 @@ stageEl.addEventListener("pointermove", (event) => {
   const dy = event.clientY - drag.y;
   if (Math.hypot(dx, dy) > 3) drag.moved = true;
   azimuth = drag.azimuth + dx * 0.35;
-  elevation = Math.max(12, Math.min(42, drag.elevation - dy * 0.12));
+  elevation = Math.max(18, Math.min(62, drag.elevation - dy * 0.12));
   wake();
 });
 function endDrag() { drag = null; }

@@ -30,10 +30,10 @@ Where to look up any other pathogen or molecule — PDB, EMDB, VIPERdb, NIH 3D, 
 
 ## A resting virion
 
-Open [`examples/sars-cov-2/sars-cov-2.html`](examples/sars-cov-2/sars-cov-2.html). Keys 1 and 2 rest on the upright crown and the stalk hinge. E opens the envelope. This is the particle Ke et al. measured, not an entry cycle. The envelope is 91 ± 11 nm. The model places their mean of 24 prefusion trimers, and the readout counts only the ones facing the camera. The closed prefusion fit is [PDB 6VXX](https://www.rcsb.org/structure/6VXX).
+Open [`examples/sars-cov-2/sars-cov-2.html`](examples/sars-cov-2/sars-cov-2.html). Key 1 is the outside of the particle. Key 2 cuts the envelope. The shape follows Figure 1 of [Frontiers in Virology, 12 January 2022](https://doi.org/10.3389/fviro.2021.815388): each spike is three lobes on one stalk, the small marks are the membrane protein, and the cut shows nucleocapsid beads on the genomic RNA. The envelope is 91 ± 11 nm, from Ke et al. The readout counts the trimers and beads in the picture. The closed prefusion fit is [PDB 6VXX](https://www.rcsb.org/structure/6VXX).
 
 <p>
-  <img src="examples/sars-cov-2/shots/crown.png" width="640" alt="Isometric SARS-CoV-2 particle. The readout counts the prefusion spike trimers facing the camera, standing upright on a 91 nm envelope.">
+  <img src="examples/sars-cov-2/shots/crown.png" width="640" alt="SARS-CoV-2 particle covered with three-lobed spike trimers and small membrane marks. The readout counts the trimers in view.">
 </p>
 
 ## Install

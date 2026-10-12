@@ -1,22 +1,20 @@
 # SARS-CoV-2
 
-The structure of one particle. Not an entry cycle.
+The structure of one particle, in the form of a published schematic.
 
 ## What is drawn
 
-A lipid envelope 91 nm across, the mean Ke et al. measured to the outside of the bilayer (91 ± 11 nm, 179 virions). Twenty-four prefusion spike trimers, the mean they counted (24 ± 9). The card draws only the trimers that face the camera, and the readout counts those.
+Figure 1 of Frontiers in Virology, 12 January 2022, is the shape. Each spike is a trimer: one stalk and three lobes. Small marks in the envelope are the membrane protein. The cut shows short channels for the envelope protein, and nucleocapsid beads on the genomic RNA.
 
-The stalk is a hinge. Ke et al. saw tilts up to 90°, and less often past 50°. Key 2 leans every trimer to 50°. That is the common end of the range, not the rare flat spike.
-
-E opens the envelope. Inside, Yao et al. counted 26 ± 11 ribonucleoproteins, and Turoňová et al. measured each at about 14 nm long. The opening shows four, so they can be told apart. The readout counts those four.
+The envelope diameter is 91 ± 11 nm, the mean Ke et al. measured on 179 virions. That sits inside the review's 60–140 nm range. Spike length in the drawing is 11 nm, inside the review's 9–12 nm. Ke et al. counted 24 ± 9 prefusion trimers. This crown is the schematic, and the readout S counts only the trimers in the picture. The readout N counts the beads in the cut. Yao et al. counted 26 ± 11 ribonucleoproteins by cryo-electron tomography.
 
 ## Sources
 
-- Ke et al., Nature 2020. EMD-11493 is the prefusion spike average from intact virions. They fit the closed prefusion trimer PDB 6VXX.
-- Yao et al., Cell 2020. A second count of prefusion spikes, the ribonucleoproteins, and a genome of about 30 kb.
-- Turoňová et al., Nature Communications 2020. Intracellular virions average 89.8 ± 13.7 nm, and spike tilt on those virions reached 41°.
-- ViralZone lists the structural proteins S, M, E, and N. M and E stay inside the envelope drawing. No sequence is copied.
+- Frontiers in Virology, 12 January 2022, Figure 1. https://doi.org/10.3389/fviro.2021.815388
+- Ke et al., Nature 2020. Envelope diameter, the counted trimers, EMD-11493, and the closed prefusion fit PDB 6VXX.
+- Yao et al., Cell 2020. Ribonucleoprotein count and a genome of about 30 kb.
+- ViralZone names S, M, E, and N. No sequence is copied.
 
 ## Left out
 
-Postfusion spikes are about 3% of the trimers Ke counted. A typical virion in that average has none, so none are drawn. ACE2, fusion, and the cell are not in this figure.
+Leader lines and words stay off the drawing. The legend names the parts. Postfusion spikes, ACE2, and fusion are left for another figure.

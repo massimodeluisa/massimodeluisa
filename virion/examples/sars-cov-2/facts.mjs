@@ -41,4 +41,12 @@ export const FACTS = {
     envelope: "E",
     nucleoprotein: "N",
   },
+  frontiers: {
+    url: "https://doi.org/10.3389/fviro.2021.815388",
+    figure: "https://www.frontiersin.org/journals/virology/articles/10.3389/fviro.2021.815388/full",
+    journal: "Frontiers in Virology, 12 January 2022",
+    diameterNm: [60, 140],
+    spikeLengthNm: [9, 12],
+    spikeDrawnNm: 11,
+  },
 };

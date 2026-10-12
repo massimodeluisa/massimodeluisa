@@ -48,7 +48,7 @@ If a structure or step is not in the source, omit it or mark it in the caption a
 
 `examples/norovirus/` is the naked T=3 capsid. ViralZone supplies the cycle. Prasad et al. 1994 and PDB 1IHM supply the diameter, the 90 dimers, and the shell radii. HHMI is not a source for it.
 
-`examples/sars-cov-2/` is the resting SARS-CoV-2 particle. Ke et al. 2020 supply the 91 nm envelope, the mean of 24 prefusion trimers, and the stalk hinge. The readout counts only the trimers facing the camera.
+`examples/sars-cov-2/` is the resting SARS-CoV-2 particle. Figure 1 of Frontiers in Virology, 12 January 2022, supplies the shape: three-lobed spike trimers, membrane marks, and nucleocapsid beads on the genomic RNA. Ke et al. 2020 supply the 91 nm envelope. The readout counts the trimers and beads the picture actually draws.
 
 Nuclear import, transcription, and replication factories are real and are not in these figures. Do not add a fake compartment to suggest them.
 

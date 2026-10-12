@@ -1,12 +1,24 @@
 import { FACTS } from "./facts.mjs";
-import { add, camera, clamp, cross, depthOf, fitOrigin, mul, norm, project, smooth, viewDir } from "../../kit/math.mjs";
+import { add, camera, clamp, cross, depthOf, fitOrigin, mul, norm, project, viewDir } from "../../kit/math.mjs";
 
 const R = FACTS.ke.diameterNm / 2;
+const LENGTH = FACTS.frontiers.spikeDrawnNm;
+const LOBE_R = 3.7;
+const SPREAD = 5.1;
 const GOLD = Math.PI * (3 - Math.sqrt(5));
 
 export const STAGES = [
   { id: "crown", label: "Crown", at: 0, key: "1" },
-  { id: "hinge", label: "Hinge", at: 1, key: "2" },
+  { id: "section", label: "Section", at: 1, key: "2" },
+];
+
+export const VIEW = { width: 720, height: 520 };
+
+export const FRAME = [
+  [-70, -70, -62],
+  [70, 70, -62],
+  [-70, -70, 74],
+  [70, 70, 74],
 ];
 
 function sphereDirs(count) {
@@ -18,58 +30,40 @@ function sphereDirs(count) {
   });
 }
 
-const DIRS = sphereDirs(FACTS.ke.trimers);
-
-export const VIEW = { width: 720, height: 520 };
-
-export const FRAME = [
-  [-72, -72, -64],
-  [72, 72, -64],
-  [-72, -72, 76],
-  [72, 72, 76],
-];
-
-export function mouthDir(view) {
-  const up = Math.abs(view[2]) < 0.9 ? [0, 0, 1] : [1, 0, 0];
-  const right = norm(cross(view, up));
-  const lift = norm(cross(right, view));
-  return norm(add(mul(view, 0.58), mul(lift, 0.62)));
+function triad(axis) {
+  const up = Math.abs(axis[2]) < 0.85 ? [0, 0, 1] : [1, 0, 0];
+  const u = norm(cross(axis, up));
+  const v = cross(axis, u);
+  return { u, v };
 }
 
-function hinge(normal, angle, spin) {
-  const up = Math.abs(normal[2]) < 0.85 ? [0, 0, 1] : [1, 0, 0];
-  const tangent = norm(cross(normal, up));
-  const bitangent = cross(normal, tangent);
-  const lean = norm(add(mul(tangent, Math.cos(spin)), mul(bitangent, Math.sin(spin))));
-  return norm(add(mul(normal, Math.cos(angle)), mul(lean, Math.sin(angle))));
+function club(anchor, dir, spin) {
+  const axis = norm(dir);
+  const head = add(anchor, mul(axis, LENGTH));
+  const neck = add(anchor, mul(axis, Math.max(1.4, LENGTH - LOBE_R)));
+  const { u, v } = triad(axis);
+  const lobes = [0, 1, 2].map((i) => {
+    const a = spin + (i / 3) * Math.PI * 2;
+    return add(head, add(mul(u, Math.cos(a) * SPREAD), mul(v, Math.sin(a) * SPREAD)));
+  });
+  return { anchor, dir: axis, neck, head, lobes, length: LENGTH, lobeR: LOBE_R, stalkR: 1.05, spread: SPREAD };
 }
 
-export function pose(u, { azimuth = -32, elevation = 24, explode = 0 } = {}) {
+const DIRS = sphereDirs(52);
+
+function facingOf(dir, view) {
+  return dir[0] * view[0] + dir[1] * view[1] + dir[2] * view[2];
+}
+
+export function pose(u, { azimuth = -18, elevation = 50, explode = 0 } = {}) {
   const t = clamp(u, 0, 1);
-  const tiltDeg = smooth(t, 0, 1) * FACTS.ke.tiltCommonBelowDeg * (1 - explode);
-  const tilt = (tiltDeg * Math.PI) / 180;
-  const center = [0, explode * 4, explode * 8];
+  const section = t > 0.5 || explode > 0.5;
+  const center = [0, 0, 0];
   const cam = camera({ azimuth, elevation, scale: 2.7 });
   const view = viewDir(cam);
-  const open = explode > 0.2;
   const spikes = DIRS.map((normal, index) => {
-    const dir = hinge(normal, tilt, index * 0.7);
-    const anchor = add(center, mul(normal, R));
-    const head = add(anchor, mul(dir, FACTS.ke.headCenterNm));
-    const facing = dir[0] * view[0] + dir[1] * view[1] + dir[2] * view[2];
-    return {
-      anchor,
-      dir,
-      head,
-      length: FACTS.ke.headCenterNm,
-      headR: 5,
-      stalk: 1.15,
-      lobes: 3,
-      spread: 4.4,
-      fusion: 0,
-      peptide: 0,
-      draw: !open && facing > 0.08,
-    };
+    const spec = club(add(center, mul(normal, R)), normal, index * 0.85);
+    return { ...spec, draw: !section && facingOf(normal, view) > -0.08 };
   });
   const fitted = fitOrigin(FRAME, cam, VIEW.width, VIEW.height, 36);
   const ranked = spikes
@@ -78,49 +72,101 @@ export function pose(u, { azimuth = -32, elevation = 24, explode = 0 } = {}) {
     .sort((a, b) => b.depth - a.depth);
   const kept = [];
   for (const item of ranked) {
-    const clear = kept.every((other) => Math.hypot(other.at[0] - item.at[0], other.at[1] - item.at[1]) > 46);
+    const clear = kept.every((other) => Math.hypot(other.at[0] - item.at[0], other.at[1] - item.at[1]) > 38);
     if (clear) kept.push(item);
     else spikes[item.index].draw = false;
   }
-  const mouth = mouthDir(view);
-  const right = norm(cross(mouth, Math.abs(mouth[2]) < 0.85 ? [0, 0, 1] : [1, 0, 0]));
-  const lift = cross(right, mouth);
-  const half = FACTS.turonova.vrnpLengthNm / 2;
-  const seats = [[-1, -1], [1, -1], [-1, 1], [1, 1]];
-  const rnps = seats.map(([x, y]) => {
-    const at = add(center, add(add(mul(right, x * 11), mul(lift, y * 9)), mul(mouth, 16)));
+  const drawnHeads = spikes.filter((spike) => spike.draw).map((spike) => spike.anchor);
+  const marks = sphereDirs(72).map((normal) => {
+    const at = add(center, mul(normal, R * 0.98));
+    const nearSpike = drawnHeads.some((anchor) => Math.hypot(anchor[0] - at[0], anchor[1] - at[1], anchor[2] - at[2]) < 9);
+    return { at, draw: !section && !nearSpike && facingOf(normal, view) > 0.22 };
+  });
+  const rimCount = 14;
+  const rim = Array.from({ length: rimCount }, (_, i) => {
+    const a = (i / rimCount) * Math.PI * 2 + 0.2;
+    const normal = [Math.cos(a), Math.sin(a), 0];
+    return { ...club(add(center, mul(normal, R)), normal, a), draw: section };
+  });
+  const membraneInner = R - 11;
+  const hooks = Array.from({ length: 18 }, (_, i) => {
+    const a = ((i + 0.5) / 18) * Math.PI * 2;
+    const mid = membraneInner + 5.4;
+    const radial = [Math.cos(a), Math.sin(a), 0];
+    const tangent = [-Math.sin(a), Math.cos(a), 0];
+    const at = mul(radial, mid);
     return {
-      from: add(at, [0, 0, -half]),
-      to: add(at, [0, 0, half]),
-      draw: open,
+      from: add(at, mul(radial, -3.4)),
+      bend: add(at, mul(radial, 1.6)),
+      to: add(add(at, mul(radial, 1.6)), mul(tangent, 3.8)),
+      draw: section,
     };
   });
+  const channels = [0.4, 1.5, 2.7, 3.8, 5.1].map((a) => {
+    const radial = [Math.cos(a), Math.sin(a), 0];
+    return {
+      from: mul(radial, membraneInner - 0.4),
+      to: mul(radial, R + 1.2),
+      draw: section,
+    };
+  });
+  const beads = [];
+  const strand = [];
+  const loops = [
+    { x: -16, y: 12, r: 9.2, n: 6 },
+    { x: 16, y: 12, r: 9.2, n: 6 },
+    { x: 0, y: -14, r: 9.2, n: 6 },
+  ];
+  const starts = [];
+  for (const loop of loops) {
+    const start = beads.length;
+    starts.push(start);
+    for (let i = 0; i < loop.n; i++) {
+      const a = (i / loop.n) * Math.PI * 2 - 0.5;
+      beads.push([loop.x + Math.cos(a) * loop.r, loop.y + Math.sin(a) * loop.r, 1.6]);
+      if (i > 0) strand.push([beads[beads.length - 2], beads[beads.length - 1]]);
+    }
+    strand.push([beads[beads.length - 1], beads[start]]);
+  }
+  const link = (a0, a1, b0, b1) => {
+    let best = null;
+    for (let i = a0; i < a1; i++) {
+      for (let j = b0; j < b1; j++) {
+        const d = Math.hypot(beads[i][0] - beads[j][0], beads[i][1] - beads[j][1]);
+        if (!best || d < best.d) best = { i, j, d };
+      }
+    }
+    strand.push([beads[best.i], beads[best.j]]);
+  };
+  link(starts[0], starts[1], starts[1], starts[2]);
+  link(starts[1], starts[2], starts[2], beads.length);
   const shown = spikes.filter((spike) => spike.draw).length;
-  const shownRnp = rnps.filter((rod) => rod.draw).length;
+  const shownRim = rim.filter((spike) => spike.draw).length;
+  const shownN = section ? beads.length : 0;
   const stage = STAGES.reduce((best, item) => (Math.abs(item.at - t) < Math.abs(best.at - t) ? item : best));
-  const readout = [
-    shown ? `S ${shown}` : "",
-    open ? "" : `tilt ${Math.round(tiltDeg)}°`,
-    open ? `RNP ${shownRnp}` : "",
-    explode > 0.03 ? `apart ${explode.toFixed(2)}` : "",
-  ].filter(Boolean).join(" · ");
+  const readout = section ? `S ${shownRim} · N ${shownN}` : `S ${shown}`;
   return {
     t,
     stage,
-    tiltDeg,
-    explode,
-    open,
+    section,
     center,
     envelopeR: R,
+    membraneInner,
     spikes,
-    rnps,
+    marks,
+    rim,
+    hooks,
+    channels,
+    beads,
+    strand,
     shown,
-    shownRnp,
+    shownRim,
+    shownN,
     placed: spikes.length,
     readout,
     azimuth,
     elevation,
     cam,
-    accent: open ? "rnp" : "spike",
+    accent: section ? "n" : "spike",
   };
 }
