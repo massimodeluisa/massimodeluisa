@@ -52,7 +52,9 @@ If a structure or step is not in the source, omit it or mark it in the caption a
 
 `examples/sars-cov-2/` is the resting SARS-CoV-2 particle. Figure 1 of Frontiers in Virology, 12 January 2022, supplies the shape: three-lobed spike trimers, membrane marks, and nucleocapsid beads on the genomic RNA. Ke et al. 2020 supply the 91 nm envelope. The readout counts the trimers and beads the picture actually draws.
 
-Nuclear import, transcription, and replication factories are real and are not in these figures. Do not add a fake compartment to suggest them.
+`examples/lymphocyte/` is a resting small lymphocyte, a cell rather than a virion. Schmid-Schönbein, Shih, and Chien supply the 6.2 μm sphere and the 44.4% nuclear volume. The readout is that share. A blood film can make the nucleus look like 90% of the area; that is the flattened cell, and it is not what this sphere draws. T cells and B cells are not separate shapes.
+
+Nuclear import, transcription, and replication factories are real and are not in the virus figures. Do not add a fake compartment to suggest them. The lymphocyte is a cell, so its nucleus is the object. A virus figure still does not invent a host nucleus.
 
 ## Craft, short form
 
@@ -78,7 +80,7 @@ Nuclear import, transcription, and replication factories are real and are not in
 ## References
 
 - `references/databases.md`: where to search for any pathogen or molecule, and what each record may contribute.
-- `references/influenza.md`, `references/norovirus.md`, `references/sars-cov-2.md`: the numbers for the worked figures.
+- `references/influenza.md`, `references/norovirus.md`, `references/sars-cov-2.md`, `references/lymphocyte.md`: the numbers for the worked figures.
 - `references/sources.md`: how to take a URL, and what this skill will not produce.
 - `references/craft.md`: parts, tones, order, motion, the failure modes.
 - `references/kit.md`: the functions the figure actually calls.

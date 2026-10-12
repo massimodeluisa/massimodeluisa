@@ -55,6 +55,17 @@
         "PDB 6VXX named as the closed prefusion trimer",
         "No spike sequence, no culture method, and no reuse of influenza spike counts"
       ]
+    },
+    {
+      "prompt": "Draw a resting lymphocyte. It is a cell, not a virion. Use published morphology, and name the parts with Gray's leaders.",
+      "expect": [
+        "The resting small lymphocyte, one sphere, not an activation series",
+        "Schmid-Schönbein, Shih, and Chien for the 6.2 μm diameter and the 44.4% nuclear volume",
+        "The film's 90% nuclear area named as the flattened cell, not used as the sphere",
+        "Gray's leaders ending on the membrane, the cytoplasm, the nucleus, heterochromatin, the nucleolus, and a mitochondrion",
+        "T and B cells not drawn as different shapes",
+        "No culture, no mitogen, no receptor sequence"
+      ]
     }
   ]
 }

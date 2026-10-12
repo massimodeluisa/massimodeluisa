@@ -36,6 +36,18 @@ Open [`examples/sars-cov-2/sars-cov-2.html`](examples/sars-cov-2/sars-cov-2.html
   <img src="examples/sars-cov-2/shots/crown.png" width="640" alt="SARS-CoV-2 particle. Italic names in the margin lead to a spike trimer, a membrane mark, and the envelope.">
 </p>
 
+## A resting cell
+
+Open [`examples/lymphocyte/lymphocyte.html`](examples/lymphocyte/lymphocyte.html). Key 1 is the outside. Key 2 cuts the cell. The sphere is 6.2 μm across, from Schmid-Schönbein, Shih, and Chien, and the nucleus is 44.4% of that volume. The readout is that share. On a blood film the nucleus can look like 90% of the area, because the cell is flattened; this drawing is the sphere. Italic names in the margin lead to the membrane, the rim, the nucleus, the heterochromatin, the nucleolus, and a mitochondrion. T cells and B cells are not drawn as different shapes.
+
+<p>
+  <img src="examples/lymphocyte/shots/outside.png" width="640" alt="Resting small lymphocyte. Italic names in the margin lead to a microvillus and the plasma membrane.">
+</p>
+
+<p>
+  <img src="examples/lymphocyte/shots/section.png" width="640" alt="The same cell cut open. The nucleus is 44% of the volume, with heterochromatin against the nuclear envelope and a nucleolus inside.">
+</p>
+
 ## Install
 
 The skill is the `virion/` folder, with `SKILL.md` at its root.
@@ -56,6 +68,8 @@ node examples/norovirus/check.mjs
 node examples/norovirus/build.mjs
 node examples/sars-cov-2/check.mjs
 node examples/sars-cov-2/build.mjs
+node examples/lymphocyte/check.mjs
+node examples/lymphocyte/build.mjs
 ```
 
 `examples/influenza/Influenza.jsx` is the same scene as a React client component. It imports the model. It does not carry a second set of numbers.
@@ -70,6 +84,7 @@ virion/
 ├── examples/influenza/  enveloped particle
 ├── examples/norovirus/  naked T=3 capsid from ViralZone and PDB 1IHM
 ├── examples/sars-cov-2/ resting virion from Ke et al. 2020 and PDB 6VXX
+├── examples/lymphocyte/ resting small lymphocyte, 6.2 μm, nucleus 44% of the volume
 └── evals/evals.json
 ```
 

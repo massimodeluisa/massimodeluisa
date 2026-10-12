@@ -1,0 +1,897 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Lymphocyte</title><style>
+:root, .virion[data-theme="dark"]{
+  --v-page:#10110f; --v-card:#171815; --v-ink:#b7b6ae; --v-strong:#f3f1e8; --v-muted:#7d7c74;
+  --v-paper:#171815; --v-top:#22231f; --v-s0:#0e0f0c; --v-s1:#141511; --v-s2:#1b1c17; --v-s3:#23241f;
+  --v-line:#8d8c84; --v-line-dim:#3c3d37; --v-lit:#f7f4ea; --v-halo:#050504; --v-dot:#dddacd;
+  color-scheme:dark;
+}
+.virion[data-theme="light"]{
+  --v-page:#efeee8; --v-card:#fbfbf8; --v-ink:#5c5b56; --v-strong:#1c1c18; --v-muted:#8a8982;
+  --v-paper:#fbfbf8; --v-top:#ffffff; --v-s0:#d9d8d1; --v-s1:#e4e3dc; --v-s2:#eeeee8; --v-s3:#f6f6f2;
+  --v-line:#2a2a26; --v-line-dim:#b9b8b0; --v-lit:#161614; --v-halo:#9a988c; --v-dot:#3a3a34;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--v-page);color:var(--v-ink);font:15px/1.55 ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+.virion-page{width:min(760px,calc(100% - 28px));margin:48px auto 72px}
+.virion-figure{margin:0}
+.virion-plate{position:relative;padding:58px 18px 78px;background:var(--v-card);box-shadow:0 0 0 1px color-mix(in srgb,var(--v-muted) 70%, transparent)}
+.virion-corners{position:absolute;inset:16px 18px;pointer-events:none}
+.virion-corner{position:absolute;font:11px/1.2 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;letter-spacing:.04em;color:var(--v-muted);white-space:nowrap}
+.virion-corner[data-corner="fig"]{top:0;left:0;color:var(--v-ink)}
+.virion-corner[data-corner="title"]{top:0;right:0;letter-spacing:.12em;text-transform:uppercase}
+.virion-corner[data-corner="hint"]{left:0;bottom:0;letter-spacing:.08em;text-transform:uppercase;max-width:42%}
+.virion-corner[data-corner="readout"]{right:0;bottom:0;color:var(--v-ink);font-size:10.5px;font-variant-numeric:tabular-nums;text-align:right;max-width:68%;white-space:nowrap}
+.v-svg{display:block;width:100%;height:auto;overflow:visible}
+.v-svg path,.v-svg circle,.v-svg ellipse,.v-svg .v-leader{vector-effect:non-scaling-stroke}
+.v-label{font:italic 13px/1.2 Palatino,"Palatino Linotype","Iowan Old Style",Georgia,serif;fill:var(--v-strong)}
+.v-leader{fill:none;stroke:var(--v-strong);stroke-width:.85px;stroke-linecap:round;stroke-linejoin:round}
+.v-fill{fill:var(--v-paper);stroke:none}
+.v-shade{stroke:none}
+.v-shade[data-shade="0"]{fill:var(--v-s0)}
+.v-shade[data-shade="1"]{fill:var(--v-s1)}
+.v-shade[data-shade="2"]{fill:var(--v-s2)}
+.v-shade[data-shade="3"]{fill:var(--v-s3)}
+.v-solid[data-lit] .v-shade{fill:color-mix(in srgb,var(--v-lit) 34%, var(--v-paper))}
+.v-solid[data-lit] .v-edge{stroke:var(--v-lit);stroke-width:1.15px}
+.v-edge{fill:none;stroke:var(--v-line);stroke-width:.7px;stroke-linejoin:round;stroke-linecap:round}
+.v-edge[data-tone="lo"]{stroke:var(--v-line-dim)}
+.v-edge[data-tone="mid"]{stroke:color-mix(in srgb,var(--v-line) 55%, var(--v-line-dim))}
+.v-dot{fill:var(--v-dot);stroke:none;opacity:.45}
+.v-halo{fill:var(--v-halo);opacity:.28;filter:blur(10px)}
+.virion-legend{display:grid;gap:10px;margin-top:14px;color:var(--v-muted);font-size:13.5px}
+.virion-keys{display:flex;flex-wrap:wrap;gap:8px 16px}
+.virion-key{display:inline-flex;align-items:center;gap:7px}
+.virion-swatch{width:14px;height:10px;border:1px solid var(--v-line);background:linear-gradient(#fff0,var(--v-s0));display:inline-block}
+.virion-swatch[data-mark="lit"]{background:var(--v-lit);border-color:var(--v-lit)}
+.virion-swatch[data-mark="lo"]{background:var(--v-s1)}
+.virion-caption{max-width:68ch}
+.virion-stages{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.virion-stages button{font:12px/1 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--v-ink);background:transparent;border:0;border-bottom:1px solid transparent;padding:6px 2px;cursor:pointer}
+.virion-stages button[aria-pressed="true"]{color:var(--v-strong);border-bottom-color:var(--v-strong)}
+.virion-sources{font-size:12px}
+.virion-sources a{color:inherit}
+.virion-stage{touch-action:none}
+@media (max-width:640px){
+  .virion-plate{padding:72px 10px 86px}
+  .virion-corner[data-corner="readout"]{left:0;right:auto;bottom:22px;text-align:left;white-space:normal;max-width:100%}
+  .virion-corner[data-corner="hint"]{bottom:0}
+}
+@media (prefers-reduced-motion:reduce){.v-halo{filter:none}}
+</style></head><body class="virion" data-theme="light"><main class="virion-page"><figure class="virion-figure"><div class="virion-plate"><div class="virion-corners" aria-hidden="true"><span class="virion-corner" data-corner="fig">Fig 4</span><span class="virion-corner" data-corner="title">Lymphocyte</span><span class="virion-corner" data-corner="hint">Drag to turn · 1 outside · 2 section</span><span class="virion-corner" data-corner="readout" data-readout>6.2 μm</span></div><div class="virion-stage" tabindex="0" data-stagebox role="application" aria-label="Resting small lymphocyte. Drag to turn. Key 1 shows the outside. Key 2 cuts the cell."><div data-scene><svg class="v-svg" viewBox="0 0 720 560" role="img" aria-label="A resting small lymphocyte. Italic names in the margin lead to the plasma membrane, and in the cut to the cytoplasm, the nucleus, the heterochromatin, the nucleolus, and a mitochondrion."><g class="v-solid"><path class="v-fill" d="M233.8 280.4L234.8 249.8L246 220.6L266.4 195.3L277.7 181.8L302.3 164.7L331.6 154.2L363.2 151.1L394.5 155.7L423.1 167.6L446.5 185.9L458.3 199.9L477 226.2L486.2 255.8L486.2 279.6L485.2 310.2L474 339.4L453.6 364.7L442.3 378.2L417.7 395.3L388.4 405.8L356.8 408.9L325.5 404.3L296.9 392.4L273.5 374.1L261.7 360.1L243 333.8L233.8 304.2Z"/><path class="v-shade" data-shade="0" d="M325.5 404.3L296.9 392.4L291.6 388.2L322.5 401.1ZM388.4 405.8L356.8 408.9L356.5 406.1L390.8 402.8ZM356.8 408.9L325.5 404.3L322.5 401.1L356.5 406.1ZM322.5 401.1L291.6 388.2L288.3 380.8L320.7 394.3ZM291.6 388.2L266.2 368.4L261.7 360.1L288.3 380.8ZM266.2 368.4L248.3 343.4L243 333.8L261.7 360.1ZM356.5 406.1L322.5 401.1L320.7 394.3L356.4 399.6ZM320.7 394.3L288.3 380.8L287.2 370.3L320.1 384ZM288.3 380.8L261.7 360.1L260.1 349.2L287.2 370.3ZM261.7 360.1L243 333.8L241.2 322.6L260.1 349.2ZM243 333.8L233.8 304.2L231.8 292.5L241.2 322.6Z"/><path class="v-shade" data-shade="1" d="M417.7 395.3L388.4 405.8L390.8 402.8L422.6 391.4ZM449.3 372.9L422.6 391.4L425.6 384.1L453.6 364.7ZM422.6 391.4L390.8 402.8L392.3 396.1L425.6 384.1ZM390.8 402.8L356.5 406.1L356.4 399.6L392.3 396.1ZM425.6 384.1L392.3 396.1L392.8 385.8L426.6 373.7ZM392.3 396.1L356.4 399.6L356.3 389.3L392.8 385.8ZM356.4 399.6L320.7 394.3L320.1 384L356.3 389.3ZM320.1 384L287.2 370.3L288.3 357.1L320.7 370.6ZM287.2 370.3L260.1 349.2L261.7 336.3L288.3 357.1ZM260.1 349.2L241.2 322.6L243 310.1L261.7 336.3ZM241.2 322.6L231.8 292.5L233.8 280.4L243 310.1ZM231.8 292.5L232.9 261.3L234.8 249.8L233.8 280.4ZM392.8 385.8L356.3 389.3L356.4 375.8L392.3 372.3ZM356.3 389.3L320.1 384L320.7 370.6L356.4 375.8ZM320.7 370.6L288.3 357.1L291.6 341.5L322.5 354.4ZM288.3 357.1L261.7 336.3L266.2 321.7L291.6 341.5ZM261.7 336.3L243 310.1L248.3 296.6L266.2 321.7ZM243 310.1L233.8 280.4L239.6 268.3L248.3 296.6ZM233.8 280.4L234.8 249.8L240.6 239.1L239.6 268.3ZM234.8 249.8L246 220.6L251.2 211.3L240.6 239.1ZM392.3 372.3L356.4 375.8L356.5 359.4L390.8 356ZM356.4 375.8L320.7 370.6L322.5 354.4L356.5 359.4ZM322.5 354.4L291.6 341.5L296.9 324L325.5 335.9ZM291.6 341.5L266.2 321.7L273.5 305.8L296.9 324ZM266.2 321.7L248.3 296.6L257.1 282.7L273.5 305.8ZM248.3 296.6L239.6 268.3L249 256.6L257.1 282.7ZM239.6 268.3L240.6 239.1L249.9 229.7L249 256.6ZM240.6 239.1L251.2 211.3L259.8 204L249.9 229.7Z"/><path class="v-shade" data-shade="2" d="M468.8 348.7L449.3 372.9L453.6 364.7L474 339.4ZM485.2 310.2L474 339.4L475.8 328.3L487.1 298.7ZM474 339.4L453.6 364.7L455 354L475.8 328.3ZM453.6 364.7L425.6 384.1L426.6 373.7L455 354ZM487.1 298.7L475.8 328.3L474 315.7L485.2 286.5ZM475.8 328.3L455 354L453.6 341L474 315.7ZM455 354L426.6 373.7L425.6 360.4L453.6 341ZM426.6 373.7L392.8 385.8L392.3 372.3L425.6 360.4ZM474 315.7L453.6 341L449.3 326.1L468.8 302ZM453.6 341L425.6 360.4L422.6 344.6L449.3 326.1ZM425.6 360.4L392.3 372.3L390.8 356L422.6 344.6ZM251.2 211.3L270.7 187.1L277.7 181.8L259.8 204ZM449.3 326.1L422.6 344.6L417.7 326.9L442.3 309.9ZM422.6 344.6L390.8 356L388.4 337.4L417.7 326.9ZM390.8 356L356.5 359.4L356.8 340.5L388.4 337.4ZM356.5 359.4L322.5 354.4L325.5 335.9L356.8 340.5ZM325.5 335.9L296.9 324L304.2 305.2L329.5 315.8ZM296.9 324L273.5 305.8L283.5 289.1L304.2 305.2ZM273.5 305.8L257.1 282.7L269 268.7L283.5 289.1ZM257.1 282.7L249 256.6L261.8 245.6L269 268.7ZM249 256.6L249.9 229.7L262.6 221.8L261.8 245.6ZM249.9 229.7L259.8 204L271.3 199.1L262.6 221.8ZM259.8 204L277.7 181.8L287.2 179.4L271.3 199.1ZM277.7 181.8L302.3 164.7L309 164.3L287.2 179.4ZM417.7 326.9L388.4 337.4L385.1 317.1L411 307.8ZM388.4 337.4L356.8 340.5L357.2 319.8L385.1 317.1ZM356.8 340.5L325.5 335.9L329.5 315.8L357.2 319.8ZM329.5 315.8L304.2 305.2L313.2 285.7L334.4 294.5ZM304.2 305.2L283.5 289.1L295.8 272.1L313.2 285.7ZM283.5 289.1L269 268.7L283.6 255L295.8 272.1ZM269 268.7L261.8 245.6L277.6 235.7L283.6 255ZM261.8 245.6L262.6 221.8L278.3 215.6L277.6 235.7ZM262.6 221.8L271.3 199.1L285.6 196.6L278.3 215.6ZM271.3 199.1L287.2 179.4L298.9 180.1L285.6 196.6ZM385.1 317.1L357.2 319.8L357.6 297.9L381.1 295.6ZM357.2 319.8L329.5 315.8L334.4 294.5L357.6 297.9ZM334.4 294.5L313.2 285.7L323.6 266L340.1 272.8ZM313.2 285.7L295.8 272.1L310.1 255.4L323.6 266ZM295.8 272.1L283.6 255L300.6 242.1L310.1 255.4ZM283.6 255L277.6 235.7L295.9 227L300.6 242.1ZM277.6 235.7L278.3 215.6L296.4 211.5L295.9 227ZM278.3 215.6L285.6 196.6L302.1 196.7L296.4 211.5ZM357.6 297.9L334.4 294.5L340.1 272.8L358.2 275.5Z"/><path class="v-shade" data-shade="3" d="M488.2 267.5L487.1 298.7L485.2 286.5L486.2 255.8ZM477 226.2L486.2 255.8L480.4 244.9L471.7 216.6ZM486.2 255.8L485.2 286.5L479.4 274.1L480.4 244.9ZM485.2 286.5L474 315.7L468.8 302L479.4 274.1ZM453.8 191.6L471.7 216.6L462.9 208.9L446.5 185.9ZM471.7 216.6L480.4 244.9L471 235L462.9 208.9ZM480.4 244.9L479.4 274.1L470.1 262L471 235ZM479.4 274.1L468.8 302L460.2 287.6L470.1 262ZM468.8 302L449.3 326.1L442.3 309.9L460.2 287.6ZM302.3 164.7L331.6 154.2L334.9 155L309 164.3ZM331.6 154.2L363.2 151.1L362.8 152.3L334.9 155ZM363.2 151.1L394.5 155.7L390.5 156.4L362.8 152.3ZM394.5 155.7L423.1 167.6L415.8 166.9L390.5 156.4ZM423.1 167.6L446.5 185.9L436.5 183L415.8 166.9ZM446.5 185.9L462.9 208.9L451 203.4L436.5 183ZM462.9 208.9L471 235L458.2 226.5L451 203.4ZM471 235L470.1 262L457.4 250.4L458.2 226.5ZM470.1 262L460.2 287.6L448.7 273L457.4 250.4ZM460.2 287.6L442.3 309.9L432.8 292.7L448.7 273ZM442.3 309.9L417.7 326.9L411 307.8L432.8 292.7ZM287.2 179.4L309 164.3L317.2 167.4L298.9 180.1ZM309 164.3L334.9 155L338.9 159.6L317.2 167.4ZM334.9 155L362.8 152.3L362.4 157.3L338.9 159.6ZM362.8 152.3L390.5 156.4L385.6 160.8L362.4 157.3ZM390.5 156.4L415.8 166.9L406.8 169.6L385.6 160.8ZM415.8 166.9L436.5 183L424.2 183.1L406.8 169.6ZM436.5 183L451 203.4L436.4 200.3L424.2 183.1ZM451 203.4L458.2 226.5L442.4 219.6L436.4 200.3ZM458.2 226.5L457.4 250.4L441.7 239.6L442.4 219.6ZM457.4 250.4L448.7 273L434.4 258.7L441.7 239.6ZM448.7 273L432.8 292.7L421.1 275.2L434.4 258.7ZM432.8 292.7L411 307.8L402.8 287.9L421.1 275.2ZM411 307.8L385.1 317.1L381.1 295.6L402.8 287.9ZM285.6 196.6L298.9 180.1L312.5 183.8L302.1 196.7ZM298.9 180.1L317.2 167.4L326.7 174L312.5 183.8ZM317.2 167.4L338.9 159.6L343.6 167.9L326.7 174ZM338.9 159.6L362.4 157.3L361.8 166.1L343.6 167.9ZM362.4 157.3L385.6 160.8L379.9 168.8L361.8 166.1ZM385.6 160.8L406.8 169.6L396.4 175.7L379.9 168.8ZM406.8 169.6L424.2 183.1L409.9 186.2L396.4 175.7ZM424.2 183.1L436.4 200.3L419.4 199.5L409.9 186.2ZM436.4 200.3L442.4 219.6L424.1 214.6L419.4 199.5ZM442.4 219.6L441.7 239.6L423.6 230.1L424.1 214.6ZM441.7 239.6L434.4 258.7L417.9 244.9L423.6 230.1ZM434.4 258.7L421.1 275.2L407.5 257.8L417.9 244.9ZM421.1 275.2L402.8 287.9L393.3 267.6L407.5 257.8ZM402.8 287.9L381.1 295.6L376.4 273.7L393.3 267.6ZM381.1 295.6L357.6 297.9L358.2 275.5L376.4 273.7ZM340.1 272.8L323.6 266L335.1 246.7L346.4 251.3ZM323.6 266L310.1 255.4L325.8 239.5L335.1 246.7ZM310.1 255.4L300.6 242.1L319.4 230.3L325.8 239.5ZM300.6 242.1L295.9 227L316.2 220L319.4 230.3ZM295.9 227L296.4 211.5L316.5 209.4L316.2 220ZM296.4 211.5L302.1 196.7L320.4 199.3L316.5 209.4ZM302.1 196.7L312.5 183.8L327.5 190.5L320.4 199.3ZM312.5 183.8L326.7 174L337.2 183.7L327.5 190.5ZM326.7 174L343.6 167.9L348.8 179.6L337.2 183.7ZM343.6 167.9L361.8 166.1L361.3 178.4L348.8 179.6ZM361.8 166.1L379.9 168.8L373.6 180.2L361.3 178.4ZM379.9 168.8L396.4 175.7L384.9 184.9L373.6 180.2ZM396.4 175.7L409.9 186.2L394.2 192.1L384.9 184.9ZM409.9 186.2L419.4 199.5L400.6 201.2L394.2 192.1ZM419.4 199.5L424.1 214.6L403.8 211.5L400.6 201.2ZM424.1 214.6L423.6 230.1L403.5 222.1L403.8 211.5ZM423.6 230.1L417.9 244.9L399.6 232.3L403.5 222.1ZM417.9 244.9L407.5 257.8L392.5 241.1L399.6 232.3ZM407.5 257.8L393.3 267.6L382.8 247.8L392.5 241.1ZM393.3 267.6L376.4 273.7L371.2 252L382.8 247.8ZM376.4 273.7L358.2 275.5L358.7 253.2L371.2 252ZM358.2 275.5L340.1 272.8L346.4 251.3L358.7 253.2ZM346.4 251.3L335.1 246.7L347.4 228.4L353.1 230.7ZM335.1 246.7L325.8 239.5L342.7 224.7L347.4 228.4ZM325.8 239.5L319.4 230.3L339.4 220.1L342.7 224.7ZM319.4 230.3L316.2 220L337.7 214.8L339.4 220.1ZM316.2 220L316.5 209.4L337.9 209.4L337.7 214.8ZM316.5 209.4L320.4 199.3L339.9 204.3L337.9 209.4ZM320.4 199.3L327.5 190.5L343.5 199.8L339.9 204.3ZM327.5 190.5L337.2 183.7L348.4 196.4L343.5 199.8ZM337.2 183.7L348.8 179.6L354.3 194.3L348.4 196.4ZM348.8 179.6L361.3 178.4L360.6 193.7L354.3 194.3ZM361.3 178.4L373.6 180.2L366.9 194.6L360.6 193.7ZM373.6 180.2L384.9 184.9L372.6 197L366.9 194.6ZM384.9 184.9L394.2 192.1L377.3 200.7L372.6 197ZM394.2 192.1L400.6 201.2L380.6 205.3L377.3 200.7ZM400.6 201.2L403.8 211.5L382.3 210.5L380.6 205.3ZM403.8 211.5L403.5 222.1L382.1 215.9L382.3 210.5ZM403.5 222.1L399.6 232.3L380.1 221.1L382.1 215.9ZM399.6 232.3L392.5 241.1L376.5 225.5L380.1 221.1ZM392.5 241.1L382.8 247.8L371.6 228.9L376.5 225.5ZM382.8 247.8L371.2 252L365.7 231.1L371.6 228.9ZM371.2 252L358.7 253.2L359.4 231.7L365.7 231.1ZM358.7 253.2L346.4 251.3L353.1 230.7L359.4 231.7ZM353.1 230.7L347.4 228.4L360 211.6L360 211.6ZM347.4 228.4L342.7 224.7L360 211.6L360 211.6ZM342.7 224.7L339.4 220.1L360 211.6L360 211.6ZM339.4 220.1L337.7 214.8L360 211.6L360 211.6ZM337.7 214.8L337.9 209.4L360 211.6L360 211.6ZM337.9 209.4L339.9 204.3L360 211.6L360 211.6ZM339.9 204.3L343.5 199.8L360 211.6L360 211.6ZM343.5 199.8L348.4 196.4L360 211.6L360 211.6ZM348.4 196.4L354.3 194.3L360 211.6L360 211.6ZM354.3 194.3L360.6 193.7L360 211.6L360 211.6ZM360.6 193.7L366.9 194.6L360 211.6L360 211.6ZM366.9 194.6L372.6 197L360 211.6L360 211.6ZM372.6 197L377.3 200.7L360 211.6L360 211.6ZM377.3 200.7L380.6 205.3L360 211.6L360 211.6ZM380.6 205.3L382.3 210.5L360 211.6L360 211.6ZM382.3 210.5L382.1 215.9L360 211.6L360 211.6ZM382.1 215.9L380.1 221.1L360 211.6L360 211.6ZM380.1 221.1L376.5 225.5L360 211.6L360 211.6ZM376.5 225.5L371.6 228.9L360 211.6L360 211.6ZM371.6 228.9L365.7 231.1L360 211.6L360 211.6ZM365.7 231.1L359.4 231.7L360 211.6L360 211.6ZM359.4 231.7L353.1 230.7L360 211.6L360 211.6Z"/><path class="v-edge" data-tone="mid" d="M233.8 280.4L234.8 249.8L246 220.6L266.4 195.3L277.7 181.8L302.3 164.7L331.6 154.2L363.2 151.1L394.5 155.7L423.1 167.6L446.5 185.9L458.3 199.9L477 226.2L486.2 255.8L486.2 279.6L485.2 310.2L474 339.4L453.6 364.7L442.3 378.2L417.7 395.3L388.4 405.8L356.8 408.9L325.5 404.3L296.9 392.4L273.5 374.1L261.7 360.1L243 333.8L233.8 304.2Z"/></g><g class="v-solid" data-lit=""><path class="v-fill" d="M254.7 185.4L257 181.8L260.9 178.2L263.4 177.2L276.2 189.7L275.5 192.1L272 196L268.5 198.6L267.5 197.8Z"/><path class="v-shade" data-shade="0" d="M268.5 198.6L267.5 197.8L254.7 185.4L255.7 186.1Z"/><path class="v-shade" data-shade="1" d="M272 196L268.5 198.6L255.7 186.1L259.2 183.6Z"/><path class="v-shade" data-shade="2" d="M255.7 186.1L254.7 185.4L257 181.8L260.9 178.2L263.4 177.2L262.7 179.6L259.2 183.6Z"/><path class="v-shade" data-shade="3" d="M276.2 189.7L275.5 192.1L262.7 179.6L263.4 177.2ZM275.5 192.1L272 196L259.2 183.6L262.7 179.6Z"/><path class="v-edge" data-tone="hi" d="M254.7 185.4L257 181.8L260.9 178.2L263.4 177.2L276.2 189.7L275.5 192.1L272 196L268.5 198.6L267.5 197.8Z"/></g><g class="v-solid" data-lit=""><path class="v-fill" d="M396.7 163.1L402.8 146.5L406.5 146.7L411.6 148.6L414.2 150.8L408.1 167.5L406.3 168.3L401.4 167.1L397.2 164.8Z"/><path class="v-shade" data-shade="1" d="M397.2 164.8L396.7 163.1L402.8 146.5L403.3 148.2Z"/><path class="v-shade" data-shade="2" d="M408.1 167.5L406.3 168.3L412.4 151.6L414.2 150.8ZM406.3 168.3L401.4 167.1L407.6 150.5L412.4 151.6ZM401.4 167.1L397.2 164.8L403.3 148.2L407.6 150.5Z"/><path class="v-shade" data-shade="3" d="M402.8 146.5L406.5 146.7L411.6 148.6L414.2 150.8L412.4 151.6L407.6 150.5L403.3 148.2Z"/><path class="v-edge" data-tone="hi" d="M396.7 163.1L402.8 146.5L406.5 146.7L411.6 148.6L414.2 150.8L408.1 167.5L406.3 168.3L401.4 167.1L397.2 164.8Z"/></g><g class="v-solid" data-lit=""><path class="v-fill" d="M466.3 227.1L482.2 220.2L484.2 220.2L486.9 224.1L488.3 229L487.4 231.2L471.5 238.1L468.9 236L466.6 231.1Z"/><path class="v-shade" data-shade="1" d="M471.5 238.1L468.9 236L484.8 229L487.4 231.2Z"/><path class="v-shade" data-shade="2" d="M468.9 236L466.6 231.1L482.5 224.1L484.8 229ZM466.6 231.1L466.3 227.1L482.2 220.2L482.5 224.1Z"/><path class="v-shade" data-shade="3" d="M484.2 220.2L486.9 224.1L488.3 229L487.4 231.2L484.8 229L482.5 224.1L482.2 220.2Z"/><path class="v-edge" data-tone="hi" d="M466.3 227.1L482.2 220.2L484.2 220.2L486.9 224.1L488.3 229L487.4 231.2L471.5 238.1L468.9 236L466.6 231.1Z"/></g><g class="v-solid" data-lit=""><path class="v-fill" d="M340.3 400.3L340.3 397.3L342.1 382.2L346.3 380.6L351.6 381.7L353.9 384.7L352.1 399.8L349.7 402.3L344.5 402.6Z"/><path class="v-shade" data-shade="1" d="M352.1 399.8L349.7 402.3L344.5 402.6L340.3 400.3L340.3 397.3L344.5 395.8L349.8 396.9Z"/><path class="v-shade" data-shade="2" d="M342.1 382.2L346.3 380.6L344.5 395.8L340.3 397.3Z"/><path class="v-shade" data-shade="3" d="M346.3 380.6L351.6 381.7L349.8 396.9L344.5 395.8ZM351.6 381.7L353.9 384.7L352.1 399.8L349.8 396.9Z"/><path class="v-edge" data-tone="hi" d="M340.3 400.3L340.3 397.3L342.1 382.2L346.3 380.6L351.6 381.7L353.9 384.7L352.1 399.8L349.7 402.3L344.5 402.6Z"/></g><g class="v-solid" data-lit=""><path class="v-fill" d="M444.8 335L447.1 330.2L450.9 327.7L463.9 335.5L466.4 337.2L465.7 341.9L462.4 346L458.8 346.4L445.9 338.6Z"/><path class="v-shade" data-shade="0" d="M445.9 338.6L444.8 335L457.8 342.8L458.8 346.4Z"/><path class="v-shade" data-shade="2" d="M444.8 335L447.1 330.2L460.1 337.9L457.8 342.8ZM466.4 337.2L465.7 341.9L462.4 346L458.8 346.4L457.8 342.8L460.1 337.9L463.9 335.5Z"/><path class="v-shade" data-shade="3" d="M447.1 330.2L450.9 327.7L463.9 335.5L460.1 337.9Z"/><path class="v-edge" data-tone="hi" d="M444.8 335L447.1 330.2L450.9 327.7L463.9 335.5L466.4 337.2L465.7 341.9L462.4 346L458.8 346.4L445.9 338.6Z"/></g><g class="v-solid" data-lit=""><path class="v-fill" d="M331.6 166L335.5 163.3L340.8 163.2L343.5 165.7L346.4 180.1L344.4 183.4L339.2 185L334.8 183.7L332 169.3Z"/><path class="v-shade" data-shade="1" d="M339.2 185L334.8 183.7L332 169.3L336.4 170.6Z"/><path class="v-shade" data-shade="2" d="M344.4 183.4L339.2 185L336.4 170.6L341.5 169Z"/><path class="v-shade" data-shade="3" d="M346.4 180.1L344.4 183.4L341.5 169L343.5 165.7ZM331.6 166L335.5 163.3L340.8 163.2L343.5 165.7L341.5 169L336.4 170.6L332 169.3Z"/><path class="v-edge" data-tone="hi" d="M331.6 166L335.5 163.3L340.8 163.2L343.5 165.7L346.4 180.1L344.4 183.4L339.2 185L334.8 183.7L332 169.3Z"/></g><g class="v-solid" data-lit=""><path class="v-fill" d="M273.4 336.1L274.7 332L285.1 324.8L289.3 324.5L293.1 328.1L293.7 333.1L290.7 335.5L280.3 342.8L275.8 340.9Z"/><path class="v-shade" data-shade="1" d="M293.7 333.1L290.7 335.5L280.3 342.8L283.4 340.3ZM283.4 340.3L280.3 342.8L275.8 340.9L273.4 336.1L274.7 332L278.9 331.7L282.8 335.4Z"/><path class="v-shade" data-shade="3" d="M285.1 324.8L289.3 324.5L278.9 331.7L274.7 332ZM289.3 324.5L293.1 328.1L282.8 335.4L278.9 331.7ZM293.1 328.1L293.7 333.1L283.4 340.3L282.8 335.4Z"/><path class="v-edge" data-tone="hi" d="M273.4 336.1L274.7 332L285.1 324.8L289.3 324.5L293.1 328.1L293.7 333.1L290.7 335.5L280.3 342.8L275.8 340.9Z"/></g><g class="v-solid" data-lit=""><path class="v-fill" d="M269.3 248.3L270.3 243.1L274.3 240.1L278.2 241.6L289.1 245.9L290 250.8L287.2 255.4L282.8 256.2L271.9 251.9Z"/><path class="v-shade" data-shade="0" d="M287.2 255.4L282.8 256.2L271.9 251.9L276.3 251Z"/><path class="v-shade" data-shade="2" d="M290 250.8L287.2 255.4L276.3 251L279.1 246.5ZM276.3 251L271.9 251.9L269.3 248.3L270.3 243.1L274.3 240.1L278.2 241.6L279.1 246.5Z"/><path class="v-shade" data-shade="3" d="M289.1 245.9L290 250.8L279.1 246.5L278.2 241.6Z"/><path class="v-edge" data-tone="hi" d="M269.3 248.3L270.3 243.1L274.3 240.1L278.2 241.6L289.1 245.9L290 250.8L287.2 255.4L282.8 256.2L271.9 251.9Z"/></g><g class="v-solid" data-lit=""><path class="v-fill" d="M415.9 241.8L419.4 238.9L428.3 233.8L433 235.5L435.3 240.4L433.5 244.8L424.6 249.9L420.1 250.6L416.2 246.9Z"/><path class="v-shade" data-shade="1" d="M424.6 249.9L420.1 250.6L428.9 245.5L433.5 244.8ZM420.1 250.6L416.2 246.9L425 241.8L428.9 245.5ZM416.2 246.9L415.9 241.8L424.7 236.7L425 241.8Z"/><path class="v-shade" data-shade="2" d="M415.9 241.8L419.4 238.9L428.3 233.8L424.7 236.7Z"/><path class="v-shade" data-shade="3" d="M424.7 236.7L428.3 233.8L433 235.5L435.3 240.4L433.5 244.8L428.9 245.5L425 241.8Z"/><path class="v-edge" data-tone="hi" d="M415.9 241.8L419.4 238.9L428.3 233.8L433 235.5L435.3 240.4L433.5 244.8L424.6 249.9L420.1 250.6L416.2 246.9Z"/></g><g class="v-solid" data-lit=""><path class="v-fill" d="M354.1 201.6L357.8 198.3L363.2 198.7L366.2 202.6L366.2 212.3L364.5 216.7L359.4 218.3L354.8 215.9L354.1 211.4Z"/><path class="v-shade" data-shade="0" d="M354.8 215.9L354.1 211.4L354.1 201.6L354.8 206.2Z"/><path class="v-shade" data-shade="1" d="M364.5 216.7L359.4 218.3L359.4 208.5L364.5 206.9ZM359.4 218.3L354.8 215.9L354.8 206.2L359.4 208.5Z"/><path class="v-shade" data-shade="2" d="M366.2 212.3L364.5 216.7L364.5 206.9L366.2 202.6Z"/><path class="v-shade" data-shade="3" d="M354.1 201.6L357.8 198.3L363.2 198.7L366.2 202.6L364.5 206.9L359.4 208.5L354.8 206.2Z"/><path class="v-edge" data-tone="hi" d="M354.1 201.6L357.8 198.3L363.2 198.7L366.2 202.6L366.2 212.3L364.5 216.7L359.4 218.3L354.8 215.9L354.1 211.4Z"/></g><g class="v-solid" data-lit=""><path class="v-fill" d="M378.7 317.1L382.2 313.1L387.5 313.1L390.6 317.1L394.1 322.7L392.6 327.8L387.7 330L383.1 327.8L379.5 322.2Z"/><path class="v-shade" data-shade="0" d="M379.5 322.2L378.7 317.1L382.2 322.7L383.1 327.8Z"/><path class="v-shade" data-shade="2" d="M378.7 317.1L382.2 313.1L385.8 318.7L382.2 322.7ZM394.1 322.7L392.6 327.8L387.7 330L383.1 327.8L382.2 322.7L385.8 318.7L391.1 318.7Z"/><path class="v-shade" data-shade="3" d="M382.2 313.1L387.5 313.1L391.1 318.7L385.8 318.7ZM387.5 313.1L390.6 317.1L394.1 322.7L391.1 318.7Z"/><path class="v-edge" data-tone="hi" d="M378.7 317.1L382.2 313.1L387.5 313.1L390.6 317.1L394.1 322.7L392.6 327.8L387.7 330L383.1 327.8L379.5 322.2Z"/></g><text class="v-label" x="16" y="181.7" text-anchor="start">Microvillus</text><path class="v-leader" d="M92.2 177.7L106.2 177.7L259.1 181.7"/><text class="v-label" x="704" y="378.5" text-anchor="end">Plasma membrane</text><path class="v-leader" d="M603.0 374.5L589.0 374.5L405.9 378.5"/></svg></div></div></div><figcaption class="virion-legend"><span class="virion-keys"><span class="virion-key"><i class="virion-swatch" data-mark="mid"></i>Plasma membrane. The cell is 6.2 μm across.</span><span class="virion-key"><i class="virion-swatch" data-mark="lo"></i>Cytoplasm, a thin rim. Nucleus, 44% of the volume.</span><span class="virion-key"><i class="virion-swatch" data-mark="lit"></i>Heterochromatin against the nuclear envelope. Microvilli on the outside.</span></span><span class="virion-caption">One resting small lymphocyte from human blood. Schmid-Schönbein, Shih, and Chien measured the undeformed cell at 6.2 μm by transmission electron microscopy, and 5.75 μm by light microscopy. The isotonic volume on their figure is 125 ± 15 μm³. Downey et al. measured an optical diameter of 6.05 μm. On a blood film the small lymphocyte is 6–9 μm, because the cell is flattened. The nucleus is 44.4% of the cell volume, the cytoplasm 51.6%, and the mitochondria 3.8%. The readout N is that nuclear share, computed from the two radii drawn here. A film can make the nucleus look like 90% of the area; that is the film, not this sphere. The plasma membrane has about 130% more area than the smooth sphere. Janeway's resting cell has condensed chromatin, a thin rim of cytoplasm, and no rough endoplasmic reticulum. The nucleolus is drawn at 0.9 μm, inside the 0.5–1.4 μm range of those sections. T cells and B cells are not separate shapes under the microscope. Key 2 cuts the cell.</span><span class="virion-stages" data-stages><button type="button" data-stage="0" aria-pressed="false">1 Outside</button><button type="button" data-stage="1" aria-pressed="false">2 Section</button></span><span class="virion-sources"><a href="https://doi.org/10.1182/blood.V56.5.866.866">Schmid-Schönbein et al. 1980</a> · <a href="https://doi.org/10.1152/jappl.1990.69.5.1767">Downey et al. 1990</a> · <a href="https://www.ncbi.nlm.nih.gov/books/NBK27092/figure/A42/">Janeway et al. 2001, Figure 1.5</a></span></figcaption></figure></main><script type="module">const RAD = Math.PI / 180;
+
+function add(a, b) {
+  return [a[0] + b[0], a[1] + b[1], a[2] + b[2]];
+}
+
+function sub(a, b) {
+  return [a[0] - b[0], a[1] - b[1], a[2] - b[2]];
+}
+
+function mul(a, s) {
+  return [a[0] * s, a[1] * s, a[2] * s];
+}
+
+function dot(a, b) {
+  return a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+}
+
+function cross(a, b) {
+  return [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
+}
+
+function len(a) {
+  return Math.hypot(a[0], a[1], a[2]);
+}
+
+function norm(a) {
+  const l = len(a) || 1;
+  return [a[0] / l, a[1] / l, a[2] / l];
+}
+
+function lerp(a, b, t) {
+  return a + (b - a) * t;
+}
+
+function clamp(v, lo, hi) {
+  return Math.max(lo, Math.min(hi, v));
+}
+
+function smooth(u, a, b) {
+  if (u <= a) return 0;
+  if (u >= b) return 1;
+  const t = (u - a) / (b - a);
+  return t * t * (3 - 2 * t);
+}
+
+function camera({ azimuth = 40, elevation = 28, scale = 2.55, origin = [360, 400] } = {}) {
+  const a = azimuth * RAD;
+  const e = elevation * RAD;
+  return {
+    azimuth,
+    elevation,
+    scale,
+    origin,
+    sinA: Math.sin(a),
+    cosA: Math.cos(a),
+    sinE: Math.sin(e),
+    cosE: Math.cos(e),
+  };
+}
+
+function project([x, y, z], cam) {
+  const { sinA, cosA, sinE, cosE, scale, origin } = cam;
+  return [
+    origin[0] + (x * sinA - y * cosA) * scale,
+    origin[1] + ((x * cosA + y * sinA) * sinE - z * cosE) * scale,
+  ];
+}
+
+function depthOf([x, y, z], cam) {
+  return (x * cam.cosA + y * cam.sinA) * cam.cosE + z * cam.sinE;
+}
+
+function viewDir(cam) {
+  return [cam.cosA * cam.cosE, cam.sinA * cam.cosE, cam.sinE];
+}
+
+const LIGHT = norm([-0.42, -0.38, 0.82]);
+
+function shadeOf(normal) {
+  const t = (dot(norm(normal), LIGHT) + 1) / 2;
+  return Math.max(0, Math.min(3, Math.floor(t * 3.999)));
+}
+
+function tenth(value) {
+  const text = (Math.round(value * 10) / 10).toFixed(1).replace(/\.0$/, "");
+  return text === "-0" ? "0" : text;
+}
+
+function pathOf(points, closed = false) {
+  if (!points.length) return "";
+  const d = points.map(([x, y], i) => `${i ? "L" : "M"}${tenth(x)} ${tenth(y)}`).join("");
+  return closed ? `${d}Z` : d;
+}
+
+function convexHull(points) {
+  const sorted = [...points].sort((a, b) => a[0] - b[0] || a[1] - b[1]);
+  if (sorted.length < 3) return sorted;
+  const cross2 = (o, a, b) => (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0]);
+  const lower = [];
+  for (const p of sorted) {
+    while (lower.length >= 2 && cross2(lower[lower.length - 2], lower[lower.length - 1], p) <= 0) lower.pop();
+    lower.push(p);
+  }
+  const upper = [];
+  for (let i = sorted.length - 1; i >= 0; i--) {
+    const p = sorted[i];
+    while (upper.length >= 2 && cross2(upper[upper.length - 2], upper[upper.length - 1], p) <= 0) upper.pop();
+    upper.push(p);
+  }
+  return [...lower.slice(0, -1), ...upper.slice(0, -1)];
+}
+
+function fitOrigin(points, cam, width, height, pad = 28) {
+  const bare = { ...cam, origin: [0, 0] };
+  const projected = points.map((p) => project(p, bare));
+  const xs = projected.map((p) => p[0]);
+  const ys = projected.map((p) => p[1]);
+  const minX = Math.min(...xs);
+  const maxX = Math.max(...xs);
+  const minY = Math.min(...ys);
+  const maxY = Math.max(...ys);
+  const spanX = maxX - minX || 1;
+  const spanY = maxY - minY || 1;
+  const scale = Math.min((width - pad * 2) / (spanX / cam.scale), (height - pad * 2) / (spanY / cam.scale));
+  const fitted = camera({ azimuth: cam.azimuth, elevation: cam.elevation, scale, origin: [0, 0] });
+  const again = points.map((p) => project(p, fitted));
+  const xs2 = again.map((p) => p[0]);
+  const ys2 = again.map((p) => p[1]);
+  const cx = (Math.min(...xs2) + Math.max(...xs2)) / 2;
+  const cy = (Math.min(...ys2) + Math.max(...ys2)) / 2;
+  fitted.origin = [width / 2 - cx, height / 2 - cy];
+  return fitted;
+}
+
+
+
+function ringPoints(origin, axis, radius, steps) {
+  const up = Math.abs(axis[2]) < 0.85 ? [0, 0, 1] : [1, 0, 0];
+  const u = norm(cross(axis, up));
+  const v = cross(axis, u);
+  return Array.from({ length: steps }, (_, i) => {
+    const a = (i / steps) * Math.PI * 2;
+    return add(origin, add(mul(u, Math.cos(a) * radius), mul(v, Math.sin(a) * radius)));
+  });
+}
+
+function prism(bottom, top, cam) {
+  const count = bottom.length;
+  const view = viewDir(cam);
+  const shades = [[], [], [], []];
+  const projected = [];
+  for (let i = 0; i < count; i++) {
+    const j = (i + 1) % count;
+    const n = norm(cross(sub(bottom[j], bottom[i]), sub(top[i], bottom[i])));
+    const face = [bottom[i], bottom[j], top[j], top[i]];
+    if (dot(n, view) > 0.02) {
+      shades[shadeOf(n)].push(pathOf(face.map((p) => project(p, cam)), true));
+    }
+    projected.push(project(bottom[i], cam), project(top[i], cam));
+  }
+  const topN = norm(cross(sub(top[1], top[0]), sub(top[2] || top[0], top[0])));
+  if (dot(topN, view) > 0.02) shades[shadeOf(topN)].push(pathOf(top.map((p) => project(p, cam)), true));
+  const botN = norm(cross(sub(bottom[1], bottom[0]), sub(bottom[0], bottom[2] || bottom[0])));
+  if (dot(botN, view) > 0.02) shades[shadeOf(botN)].push(pathOf(bottom.map((p) => project(p, cam)), true));
+  const hull = convexHull(projected);
+  const mid = mul(add(bottom[0], top[0]), 0.5);
+  return {
+    fill: pathOf(hull, true),
+    shades: shades.map((parts) => parts.join("")),
+    outline: pathOf(hull, true),
+    depth: depthOf(mid, cam),
+  };
+}
+
+function rod(from, to, radius, cam, steps = 12) {
+  const axis = norm(sub(to, from));
+  if (!Number.isFinite(axis[0]) || lenOrZero(sub(to, from)) < 0.15 || radius < 0.05) return null;
+  const bottom = ringPoints(from, axis, radius, steps);
+  const top = ringPoints(to, axis, radius, steps);
+  const mesh = prism(bottom, top, cam);
+  mesh.depth = depthOf(mul(add(from, to), 0.5), cam);
+  return mesh;
+}
+
+function lenOrZero(a) {
+  return Math.hypot(a[0], a[1], a[2]);
+}
+
+function box(x, y, w, d, z, h, cam) {
+  const bottom = [
+    [x, y, z],
+    [x + w, y, z],
+    [x + w, y + d, z],
+    [x, y + d, z],
+  ];
+  const top = bottom.map((p) => [p[0], p[1], z + h]);
+  const mesh = prism(bottom, top, cam);
+  mesh.depth = depthOf([x + w / 2, y + d / 2, z + h / 2], cam);
+  return mesh;
+}
+
+function sphere(center, radius, cam, { bands = 11, skipBottom = 0, spread = 0 } = {}) {
+  const meshes = [];
+  for (let i = 0; i < bands; i++) {
+    const t0 = i / bands;
+    const t1 = (i + 1) / bands;
+    if (t1 <= skipBottom) continue;
+    const lat0 = -Math.PI / 2 + Math.PI * Math.max(t0, skipBottom);
+    const lat1 = -Math.PI / 2 + Math.PI * t1;
+    const mid = (lat0 + lat1) / 2;
+    const r = Math.max(0.4, Math.cos(mid) * radius);
+    const z0 = center[2] + Math.sin(lat0) * radius + Math.sin(lat0) * spread;
+    const z1 = center[2] + Math.sin(lat1) * radius + Math.sin(lat1) * spread;
+    const mesh = rod([center[0], center[1], Math.min(z0, z1)], [center[0], center[1], Math.max(z0, z1)], r, cam, 18);
+    if (mesh) meshes.push(mesh);
+  }
+  return meshes;
+}
+
+function solidSvg(mesh, { tone = "mid", lit = false, edge = true } = {}) {
+  if (!mesh?.fill) return "";
+  const shades = mesh.shades.map((d, i) => (d ? `<path class="v-shade" data-shade="${i}" d="${d}"/>` : "")).join("");
+  const stroke = edge ? `<path class="v-edge" data-tone="${tone}" d="${mesh.outline}"/>` : "";
+  return `<g class="v-solid"${lit ? ' data-lit=""' : ""}><path class="v-fill" d="${mesh.fill}"/>${shades}${stroke}</g>`;
+}
+
+function ball(center, radius, cam, { bands = 18, steps = 22 } = {}) {
+  const shades = [[], [], [], []];
+  const view = viewDir(cam);
+  const samples = [];
+  const ringAt = (lat) => Array.from({ length: steps }, (_, i) => {
+    const a = (i / steps) * Math.PI * 2;
+    const r = Math.cos(lat) * radius;
+    return [center[0] + Math.cos(a) * r, center[1] + Math.sin(a) * r, center[2] + Math.sin(lat) * radius];
+  });
+  for (let band = 0; band < bands; band++) {
+    const lat0 = -Math.PI / 2 + (Math.PI * band) / bands;
+    const lat1 = -Math.PI / 2 + (Math.PI * (band + 1)) / bands;
+    const bottom = ringAt(lat0);
+    const top = ringAt(lat1);
+    for (let i = 0; i < steps; i++) {
+      const j = (i + 1) % steps;
+      const n = norm(cross(sub(bottom[j], bottom[i]), sub(top[i], bottom[i])));
+      if (dot(n, view) <= 0.04) continue;
+      shades[shadeOf(n)].push(pathOf([bottom[i], bottom[j], top[j], top[i]].map((p) => project(p, cam)), true));
+    }
+    if (band % 2 === 0) samples.push(...bottom);
+  }
+  samples.push([center[0], center[1], center[2] + radius], [center[0], center[1], center[2] - radius]);
+  const hull = convexHull(samples.map((p) => project(p, cam)));
+  return {
+    fill: pathOf(hull, true),
+    shades: shades.map((parts) => parts.join("")),
+    outline: pathOf(hull, true),
+    depth: depthOf(center, cam),
+  };
+}
+
+function dotSvg(point, cam, size, tone = "lo") {
+  const [x, y] = project(point, cam);
+  return `<circle class="v-dot" data-tone="${tone}" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${size}"/>`;
+}
+
+function haloSvg(center, rx, ry, cam) {
+  const [cx, cy] = project(center, cam);
+  const [ex] = project([center[0] + rx, center[1], center[2]], cam);
+  const [, ey] = project([center[0], center[1] + ry, center[2]], cam);
+  const sx = Math.max(8, Math.hypot(ex - cx, 0));
+  const sy = Math.max(6, Math.abs(ey - cy));
+  return `<ellipse class="v-halo" cx="${cx.toFixed(1)}" cy="${(cy + 8).toFixed(1)}" rx="${sx.toFixed(1)}" ry="${sy.toFixed(1)}"/>`;
+}
+
+function sortItems(items) {
+  return items.filter(Boolean).sort((a, b) => a.depth - b.depth);
+}
+
+function paintItem(mesh, style) {
+  if (!mesh) return null;
+  return { depth: mesh.depth, svg: solidSvg(mesh, style) };
+}
+
+function xml(text) {
+  return String(text).replace(/[&<>"]/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[ch]);
+}
+
+function leadersSvg(labels, { width, height, gutter = 148 } = {}) {
+  const left = [];
+  const right = [];
+  for (const label of labels) {
+    if (!Number.isFinite(label.x) || !Number.isFinite(label.y)) continue;
+    (label.x < width / 2 ? left : right).push(label);
+  }
+  left.sort((a, b) => a.y - b.y);
+  right.sort((a, b) => a.y - b.y);
+  const place = (items) => {
+    const gap = 32;
+    const top = 36;
+    const bottom = height - 20;
+    const rows = [];
+    for (const item of items) {
+      const previous = rows.length ? rows[rows.length - 1] : top - gap;
+      rows.push(Math.max(previous + gap, Math.min(item.y, bottom)));
+    }
+    const overflow = rows.length ? rows[rows.length - 1] - bottom : 0;
+    if (overflow > 0) {
+      for (let i = 0; i < rows.length; i++) rows[i] = Math.max(top, rows[i] - overflow);
+    }
+    return rows;
+  };
+  const leftY = place(left);
+  const rightY = place(right);
+  const row = (item, y, side) => {
+    const widthOf = Math.max(48, item.name.length * 6.2);
+    const textX = side === "left" ? 16 : width - 16;
+    const inner = side === "left" ? Math.min(gutter - 10, 16 + widthOf + 8) : Math.max(width - gutter + 10, width - 16 - widthOf - 8);
+    const yLine = y - 4;
+    const elbow = side === "left" ? inner + 14 : inner - 14;
+    const crossed = side === "left" ? item.x < elbow + 8 : item.x > elbow - 8;
+    const d = crossed
+      ? `M${inner.toFixed(1)} ${yLine.toFixed(1)}L${item.x.toFixed(1)} ${item.y.toFixed(1)}`
+      : `M${inner.toFixed(1)} ${yLine.toFixed(1)}L${elbow.toFixed(1)} ${yLine.toFixed(1)}L${item.x.toFixed(1)} ${item.y.toFixed(1)}`;
+    const anchor = side === "left" ? "start" : "end";
+    return `<text class="v-label" x="${textX}" y="${y.toFixed(1)}" text-anchor="${anchor}">${xml(item.name)}</text><path class="v-leader" d="${d}"/>`;
+  };
+  return `${left.map((item, i) => row(item, leftY[i], "left")).join("")}${right.map((item, i) => row(item, rightY[i], "right")).join("")}`;
+}
+
+
+
+
+function triad(axis) {
+  const up = Math.abs(axis[2]) < 0.85 ? [0, 0, 1] : [1, 0, 0];
+  const u = norm([axis[1] * up[2] - axis[2] * up[1], axis[2] * up[0] - axis[0] * up[2], axis[0] * up[1] - axis[1] * up[0]]);
+  const v = [
+    axis[1] * u[2] - axis[2] * u[1],
+    axis[2] * u[0] - axis[0] * u[2],
+    axis[0] * u[1] - axis[1] * u[0],
+  ];
+  return { u, v };
+}
+
+function feet(count, radius, axis) {
+  const { u, v } = triad(axis);
+  return Array.from({ length: count }, (_, i) => {
+    const a = (i / count) * Math.PI * 2 + 0.4;
+    return add(mul(u, Math.cos(a) * radius), mul(v, Math.sin(a) * radius));
+  });
+}
+
+function membraneTile(tile, cam, { tone = "mid", edge = false } = {}) {
+  const mesh = box(tile.x, tile.y, tile.w, tile.d, tile.z, tile.h, cam);
+  const mark = dotSvg([tile.cx, tile.cy, tile.z + tile.h], cam, 0.9, "lo");
+  const painted = paintItem(mesh, { tone, edge });
+  if (!painted) return [];
+  return [painted, { depth: mesh.depth + 0.02, svg: mark }];
+}
+
+function glycoprotein(base, height, headR, cam, { tone = "hi", lit = false, lobes = 1 } = {}) {
+  const top = [base[0], base[1], base[2] + height];
+  const items = [paintItem(rod(base, top, 1.15, cam, 8), { tone, lit })];
+  if (headR > 0.25) {
+    const head = add(top, [0, 0, headR * 0.65]);
+    for (const mesh of sphere(head, headR, cam, { bands: 5 })) items.push(paintItem(mesh, { tone, lit }));
+    if (lobes > 1) {
+      for (const offset of feet(lobes, headR * 0.85, [0, 0, 1])) {
+        const at = add(head, offset);
+        for (const mesh of sphere(at, headR * 0.55, cam, { bands: 3 })) items.push(paintItem(mesh, { tone: "hi", lit }));
+      }
+    }
+  }
+  return items;
+}
+
+function spike(anchor, dir, { length, head, stalk, lobes, fusion = 0, peptide = 0, spread = 2.2 }, cam, { tone = "hi", lit = false } = {}) {
+  const axis = norm(dir);
+  const neck = add(anchor, mul(axis, Math.max(0.8, length - head * 0.8)));
+  const tip = add(anchor, mul(axis, length));
+  const items = [];
+  for (const offset of feet(lobes, spread, axis)) {
+    const from = add(anchor, offset);
+    const to = add(neck, mul(offset, 0.25));
+    items.push(paintItem(rod(from, to, stalk, cam, 7), { tone, lit }));
+  }
+  for (const mesh of sphere(tip, head * (1 - fusion * 0.18), cam, { bands: 5 })) {
+    items.push(paintItem(mesh, { tone, lit }));
+  }
+  if (peptide > 0.4) {
+    const end = add(tip, mul(axis, peptide));
+    items.push(paintItem(rod(tip, end, Math.max(0.45, stalk * 0.55), cam, 6), { tone, lit }));
+  }
+  return items;
+}
+
+function envelope(center, radius, cam, { skipBottom = 0, spread = 0, cutaway = false, tone = "mid", lit = false, bands = 12 } = {}) {
+  if (spread < 0.8 && !cutaway) return [paintItem(ball(center, radius, cam), { tone, lit })];
+  const painted = sphere(center, radius, cam, { bands, skipBottom, spread }).map((mesh) => paintItem(mesh, { tone, lit })).filter(Boolean);
+  if (!cutaway) return painted;
+  const ordered = [...painted].sort((a, b) => a.depth - b.depth);
+  return ordered.slice(0, Math.max(3, Math.ceil(ordered.length * 0.68)));
+}
+
+function rnpRod(from, to, cam, { lit = false } = {}) {
+  const axis = norm(sub(to, from));
+  const length = Math.hypot(to[0] - from[0], to[1] - from[1], to[2] - from[2]);
+  const items = [paintItem(rod(from, to, 2.1, cam, 8), { tone: "hi", lit })];
+  const turns = Math.max(2, Math.round(length / 7));
+  for (let i = 1; i < turns; i++) {
+    const at = add(from, mul(axis, (length * i) / turns));
+    items.push(paintItem(rod(add(at, mul(axis, -0.35)), add(at, mul(axis, 0.35)), 2.55, cam, 8), { tone: "mid", lit }));
+  }
+  items.push(paintItem(rod(from, add(from, mul(axis, 1.2)), 2.8, cam, 8), { tone: "hi", lit }));
+  return items;
+}
+
+const FACTS = {
+  schmid: {
+    url: "https://doi.org/10.1182/blood.V56.5.866.866",
+    pubmed: "6775712",
+    journal: "Blood, 1 November 1980",
+    temDiameterUm: 6.2,
+    lightDiameterUm: 5.75,
+    volumeUm3: 125,
+    volumeSdUm3: 15,
+    nucleusFraction: 0.444,
+    cytoplasmFraction: 0.516,
+    mitochondriaFraction: 0.038,
+    granulesFraction: 0.002,
+    excessMembrane: 1.3,
+  },
+  downey: {
+    url: "https://doi.org/10.1152/jappl.1990.69.5.1767",
+    pubmed: "2272970",
+    opticalDiameterUm: 6.05,
+    opticalRangeUm: [5.98, 6.09],
+  },
+  janeway: {
+    url: "https://www.ncbi.nlm.nih.gov/books/NBK27092/figure/A42/",
+    book: "Janeway, Travers, Walport, Shlomchik. Immunobiology, 5th edition, 2001. Figure 1.5",
+  },
+  film: {
+    url: "https://www.ncbi.nlm.nih.gov/books/NBK560905/",
+    smearDiameterUm: [6, 9],
+  },
+  section: {
+    url: "https://oncohemakey.com/the-structure-of-lymphocytes-and-plasma-cells/",
+    nucleolusUm: [0.5, 1.4],
+    filmNucleusArea: 0.9,
+  },
+  nucleolusDrawnUm: 0.9,
+};
+
+
+
+
+const R = FACTS.schmid.temDiameterUm / 2;
+const NUCLEUS_R = R * Math.cbrt(FACTS.schmid.nucleusFraction);
+const NUCLEUS_AT = [-0.22, 0.04, 0];
+const VILLUS = 0.38;
+const GOLD = Math.PI * (3 - Math.sqrt(5));
+
+const STAGES = [
+  { id: "outside", label: "Outside", at: 0, key: "1" },
+  { id: "section", label: "Section", at: 1, key: "2" },
+];
+
+const VIEW = { width: 720, height: 560 };
+const GUTTER = 150;
+
+const FRAME = [
+  [-3.7, -3.7, -3.7],
+  [3.7, 3.7, -3.7],
+  [-3.7, -3.7, 3.7],
+  [3.7, 3.7, 3.7],
+];
+
+function plateCamera(cam) {
+  const fitted = fitOrigin(FRAME, cam, VIEW.width - GUTTER * 2, VIEW.height, 16);
+  fitted.origin = [fitted.origin[0] + GUTTER, fitted.origin[1]];
+  return fitted;
+}
+
+function sphereDirs(count) {
+  return Array.from({ length: count }, (_, i) => {
+    const z = count === 1 ? 0 : 1 - (i / (count - 1)) * 2;
+    const radius = Math.sqrt(Math.max(0, 1 - z * z));
+    const t = GOLD * i;
+    return [Math.cos(t) * radius, Math.sin(t) * radius, z];
+  });
+}
+
+function chromatin(nucleusAt, nucleusR) {
+  const count = 8;
+  return Array.from({ length: count }, (_, i) => {
+    const a = (i / count) * Math.PI * 2 + 0.63;
+    const at = add(nucleusAt, [Math.cos(a) * nucleusR * 0.76, Math.sin(a) * nucleusR * 0.76, 0.22]);
+    return { at, r: 0.34 };
+  });
+}
+
+function mitochondria(cellR, nucleusAt, nucleusR) {
+  const angles = [-0.55, 0.2, 0.85];
+  return angles.map((angle) => {
+    const dir = [Math.cos(angle), Math.sin(angle), 0];
+    const b = -2 * (dir[0] * nucleusAt[0] + dir[1] * nucleusAt[1]);
+    const c = nucleusAt[0] ** 2 + nucleusAt[1] ** 2 - nucleusR ** 2;
+    const outer = (-b + Math.sqrt(b * b - 4 * c)) / 2;
+    const mid = (outer + cellR) / 2;
+    const at = [dir[0] * mid, dir[1] * mid, 0.1];
+    const tangent = [-dir[1], dir[0], 0];
+    const half = 0.36;
+    return {
+      at,
+      from: [at[0] - tangent[0] * half, at[1] - tangent[1] * half, at[2]],
+      to: [at[0] + tangent[0] * half, at[1] + tangent[1] * half, at[2]],
+      r: 0.24,
+    };
+  });
+}
+
+function pose(u, { azimuth = -18, elevation = 58, explode = 0 } = {}) {
+  const t = Math.max(0, Math.min(1, u));
+  const cam = camera({ azimuth, elevation, scale: 2.7 });
+  const fitted = plateCamera(cam);
+  const view = viewDir(cam);
+  const section = t > 0.5 || explode > 0.5;
+  const center = [0, 0, 0];
+  const nucleusAt = NUCLEUS_AT;
+  const nucleusR = NUCLEUS_R;
+  const blocks = chromatin(nucleusAt, nucleusR);
+  const mitos = mitochondria(R, nucleusAt, nucleusR);
+  const nucleolus = {
+    at: add(nucleusAt, [0.5, 0.28, 0.14]),
+    r: FACTS.nucleolusDrawnUm / 2,
+  };
+  const villi = sphereDirs(28).map((dir) => ({
+    dir,
+    anchor: mul(dir, R * 0.98),
+    tip: mul(dir, R + VILLUS),
+    draw: false,
+  }));
+  if (!section) {
+    const kept = [];
+    for (const villus of villi) {
+      const facing = villus.dir[0] * view[0] + villus.dir[1] * view[1] + villus.dir[2] * view[2];
+      if (facing < 0.18) continue;
+      const [x, y] = project(villus.tip, fitted);
+      const clear = kept.every((other) => Math.hypot(other.x - x, other.y - y) > 26);
+      if (!clear) continue;
+      villus.draw = true;
+      kept.push({ x, y });
+    }
+  }
+  const fraction = (nucleusR / R) ** 3;
+  const shownV = villi.filter((villus) => villus.draw).length;
+  const readout = section ? `N ${Math.round(fraction * 100)}%` : `${FACTS.schmid.temDiameterUm} μm`;
+  return {
+    t,
+    section,
+    center,
+    radius: R,
+    nucleusAt,
+    nucleusR,
+    blocks,
+    mitos,
+    nucleolus,
+    villi,
+    shownV,
+    fraction,
+    readout,
+    cam,
+    azimuth,
+    elevation,
+  };
+}
+
+
+
+
+
+
+
+function quadMesh(face, cam) {
+  const path = pathOf(face.map((p) => project(p, cam)), true);
+  const mid = mul(face.reduce((sum, p) => add(sum, p), [0, 0, 0]), 0.25);
+  return { fill: path, shades: ["", path, "", ""], outline: path, depth: depthOf(mid, cam) };
+}
+
+function disk(center, radius, cam, shade = 1) {
+  const steps = 40;
+  const items = [];
+  for (let i = 0; i < steps; i++) {
+    const a0 = (i / steps) * Math.PI * 2;
+    const a1 = ((i + 1) / steps) * Math.PI * 2;
+    const face = [
+      center,
+      [center[0] + Math.cos(a0) * radius, center[1] + Math.sin(a0) * radius, center[2]],
+      [center[0] + Math.cos(a1) * radius, center[1] + Math.sin(a1) * radius, center[2]],
+      [center[0] + Math.cos(a1) * radius, center[1] + Math.sin(a1) * radius, center[2]],
+    ];
+    const mesh = quadMesh(face, cam);
+    const shades = ["", "", "", ""];
+    shades[shade] = mesh.fill;
+    mesh.shades = shades;
+    const painted = paintItem(mesh, { tone: shade < 2 ? "mid" : "lo", edge: false });
+    if (painted) items.push(painted);
+  }
+  return items;
+}
+
+function screenOf(point, cam) {
+  const [x, y] = project(point, cam);
+  return { x, y };
+}
+
+function apart(point, others) {
+  let best = Infinity;
+  for (const other of others) best = Math.min(best, Math.hypot(point.x - other.x, point.y - other.y));
+  return best;
+}
+
+function rayClear(point, obstacles) {
+  const side = point.x < VIEW.width / 2 ? "left" : "right";
+  const margin = side === "left" ? 140 : VIEW.width - 140;
+  let clear = 80;
+  for (const other of obstacles) {
+    if (Math.hypot(other.x - point.x, other.y - point.y) < 3) continue;
+    const between = side === "left" ? other.x > margin && other.x < point.x - 7 : other.x < margin && other.x > point.x + 7;
+    if (!between) continue;
+    clear = Math.min(clear, Math.abs(other.y - point.y));
+  }
+  return clear;
+}
+
+function takeNames(picks) {
+  const taken = [];
+  const width = VIEW.width;
+  for (const pick of picks) {
+    const ranked = pick.candidates.slice().sort((a, b) => pick.score(b) - pick.score(a));
+    const fits = (cand) => taken.every((other) => {
+      const sameSide = (cand.x < width / 2) === (other.x < width / 2);
+      if (sameSide && Math.abs(cand.y - other.y) < 36) return false;
+      return Math.hypot(cand.x - other.x, cand.y - other.y) >= 24;
+    });
+    const separated = (cand) => Math.min(...taken.map((other) => Math.hypot(other.x - cand.x, other.y - cand.y)), Infinity);
+    const cand = ranked.find(fits) || ranked.slice().sort((a, b) => separated(b) - separated(a))[0];
+    if (cand) taken.push({ name: pick.name, x: cand.x, y: cand.y });
+  }
+  return taken;
+}
+
+function plateNames(state, cam) {
+  if (state.section) {
+    const wall = Array.from({ length: 72 }, (_, i) => {
+      const a = (i / 72) * Math.PI * 2;
+      return screenOf([Math.cos(a) * state.radius * 0.99, Math.sin(a) * state.radius * 0.99, 0.02], cam);
+    });
+    const rim = [];
+    for (let i = 0; i < 24; i++) {
+      const a = (i / 24) * Math.PI * 2;
+      const dir = [Math.cos(a), Math.sin(a), 0];
+      const b = -2 * (dir[0] * state.nucleusAt[0] + dir[1] * state.nucleusAt[1]);
+      const c = state.nucleusAt[0] ** 2 + state.nucleusAt[1] ** 2 - state.nucleusR ** 2;
+      const outer = (-b + Math.sqrt(Math.max(0, b * b - 4 * c))) / 2;
+      const mid = (outer + state.radius) / 2;
+      if (mid > outer + 0.12) rim.push(screenOf([dir[0] * mid, dir[1] * mid, 0.08], cam));
+    }
+    const blocks = state.blocks.map((block) => screenOf(block.at, cam));
+    const mitos = state.mitos.map((mito) => screenOf(mito.at, cam));
+    const nucleolus = screenOf(state.nucleolus.at, cam);
+    const nucleus = [];
+    for (const scale of [0.34, 0.5]) {
+      for (let i = 0; i < 12; i++) {
+        const a = (i / 12) * Math.PI * 2 + 0.4;
+        const at = add(state.nucleusAt, [Math.cos(a) * state.nucleusR * scale, Math.sin(a) * state.nucleusR * scale, 0.16]);
+        nucleus.push(screenOf(at, cam));
+      }
+    }
+    return takeNames([
+      { name: "Heterochromatin", candidates: blocks, score: (p) => apart(p, [nucleolus, ...mitos]) },
+      { name: "Nucleolus", candidates: [nucleolus], score: () => 1 },
+      { name: "Mitochondrion", candidates: mitos, score: (p) => apart(p, blocks) },
+      { name: "Nucleus", candidates: nucleus, score: (p) => apart(p, [nucleolus, ...blocks]) },
+      { name: "Cytoplasm", candidates: rim, score: (p) => apart(p, [...blocks, ...mitos, nucleolus]) },
+      { name: "Plasma membrane", candidates: wall, score: (p) => apart(p, [...blocks, ...mitos, ...rim]) + rayClear(p, [...blocks, ...mitos]) },
+    ]);
+  }
+  const view = viewDir(state.cam);
+  const right = norm(cross(view, Math.abs(view[2]) < 0.9 ? [0, 0, 1] : [1, 0, 0]));
+  const lift = norm(cross(right, view));
+  const tips = state.villi.filter((villus) => villus.draw).map((villus) => screenOf(villus.tip, cam));
+  const origin = screenOf(state.center, cam);
+  const limb = Array.from({ length: 72 }, (_, i) => {
+    const a = (i / 72) * Math.PI * 2;
+    const dir = norm(add(mul(right, Math.cos(a)), mul(lift, Math.sin(a))));
+    const edge = screenOf(add(state.center, mul(dir, state.radius * 0.98)), cam);
+    return { x: edge.x * 0.86 + origin.x * 0.14, y: edge.y * 0.86 + origin.y * 0.14 };
+  });
+  return takeNames([
+    { name: "Microvillus", candidates: tips, score: (p) => rayClear(p, tips) + apart(p, limb) },
+    { name: "Plasma membrane", candidates: limb, score: (p) => apart(p, tips) },
+  ]);
+}
+
+function sceneSvg(state) {
+  const cam = plateCamera(state.cam);
+  const items = [];
+  if (state.section) {
+    items.push(...disk([state.center[0], state.center[1], 0], state.radius, cam, 1).map((item) => ({ ...item, depth: item.depth - 4 })));
+    const nucleus = [state.nucleusAt[0], state.nucleusAt[1], 0.02];
+    items.push(...disk(nucleus, state.nucleusR, cam, 3).map((item) => ({ ...item, depth: item.depth - 2 })));
+    for (const mito of state.mitos) {
+      const item = paintItem(rod(mito.from, mito.to, mito.r, cam, 8), { tone: "hi" });
+      if (item) items.push({ ...item, depth: item.depth + 1 });
+    }
+    for (const block of state.blocks) {
+      const item = paintItem(ball(block.at, block.r, cam, { bands: 8, steps: 12 }), { tone: "hi", lit: true });
+      if (item) items.push({ ...item, depth: item.depth + 3 });
+    }
+    const nucleolusMesh = ball(state.nucleolus.at, state.nucleolus.r, cam, { bands: 10, steps: 14 });
+    const nucleolusSvg = solidSvg(nucleolusMesh, { tone: "mid" })
+      .replace('class="v-fill"', 'class="v-shade" data-shade="0"')
+      .replaceAll('data-shade="3"', 'data-shade="1"')
+      .replaceAll('data-shade="2"', 'data-shade="0"');
+    if (nucleolusSvg) items.push({ depth: nucleolusMesh.depth + 3, svg: nucleolusSvg });
+  } else {
+    items.push(...envelope(state.center, state.radius, cam, { tone: "mid" }));
+    for (const villus of state.villi) {
+      if (!villus.draw) continue;
+      items.push(paintItem(rod(villus.anchor, villus.tip, 0.15, cam, 7), { tone: "hi", lit: true }));
+    }
+  }
+  const body = sortItems(items.filter(Boolean)).map((item) => item.svg).join("");
+  const names = leadersSvg(plateNames(state, cam), { width: VIEW.width, height: VIEW.height, gutter: GUTTER });
+  const label = "A resting small lymphocyte. Italic names in the margin lead to the plasma membrane, and in the cut to the cytoplasm, the nucleus, the heterochromatin, the nucleolus, and a mitochondrion.";
+  return `<svg class="v-svg" viewBox="0 0 ${VIEW.width} ${VIEW.height}" role="img" aria-label="${label}">${body}${names}</svg>`;
+}
+
+function captionText() {
+  const s = FACTS.schmid;
+  const film = FACTS.film;
+  return `One resting small lymphocyte from human blood. Schmid-Schönbein, Shih, and Chien measured the undeformed cell at ${s.temDiameterUm} μm by transmission electron microscopy, and ${s.lightDiameterUm} μm by light microscopy. The isotonic volume on their figure is ${s.volumeUm3} ± ${s.volumeSdUm3} μm³. Downey et al. measured an optical diameter of ${FACTS.downey.opticalDiameterUm} μm. On a blood film the small lymphocyte is ${film.smearDiameterUm[0]}–${film.smearDiameterUm[1]} μm, because the cell is flattened. The nucleus is ${Math.round(s.nucleusFraction * 1000) / 10}% of the cell volume, the cytoplasm ${Math.round(s.cytoplasmFraction * 1000) / 10}%, and the mitochondria ${Math.round(s.mitochondriaFraction * 1000) / 10}%. The readout N is that nuclear share, computed from the two radii drawn here. A film can make the nucleus look like ${Math.round(FACTS.section.filmNucleusArea * 100)}% of the area; that is the film, not this sphere. The plasma membrane has about ${Math.round(s.excessMembrane * 100)}% more area than the smooth sphere. Janeway's resting cell has condensed chromatin, a thin rim of cytoplasm, and no rough endoplasmic reticulum. The nucleolus is drawn at ${FACTS.nucleolusDrawnUm} μm, inside the ${FACTS.section.nucleolusUm[0]}–${FACTS.section.nucleolusUm[1]} μm range of those sections. T cells and B cells are not separate shapes under the microscope. Key 2 cuts the cell.`;
+}
+
+
+const stageEl = document.querySelector("[data-stagebox]");
+const sceneHost = document.querySelector("[data-scene]");
+const readout = document.querySelector("[data-readout]");
+const buttons = [...document.querySelectorAll("[data-stage]")];
+const still = matchMedia("(prefers-reduced-motion: reduce)");
+let azimuth = -18;
+let elevation = 58;
+let u = 0;
+let target = u;
+let explode = 0;
+let explodeTarget = 0;
+let speed = 1;
+let playing = !still.matches;
+let last = 0;
+let frame = 0;
+let idle = 0;
+let drag = null;
+function follow(current, next, dt, seconds) {
+  if (still.matches || seconds <= 0) return next;
+  const step = 1 - Math.exp(-dt / seconds);
+  return current + (next - current) * step;
+}
+function nearest(value) {
+  return STAGES.reduce((best, stage) => Math.abs(stage.at - value) < Math.abs(best.at - value) ? stage : best);
+}
+function render() {
+  const state = pose(u, { azimuth, elevation, explode });
+  sceneHost.innerHTML = sceneSvg(state);
+  if (readout.textContent !== state.readout) readout.textContent = state.readout;
+  const here = nearest(state.t);
+  for (const button of buttons) button.setAttribute("aria-pressed", String(button.dataset.stage === String(here.at) && !playing));
+  stageEl.setAttribute("aria-valuetext", state.readout);
+}
+function tick(now) {
+  const dt = Math.min(0.05, last ? (now - last) / 1000 : 0.016);
+  last = now;
+  if (playing) target += dt * 0.18 * speed;
+  if (target > 1.02) target = 0;
+  u = follow(u, target, dt, playing ? 0.08 : 0.45);
+  explode = follow(explode, explodeTarget, dt, 0.4);
+  render();
+  const settled = !playing && Math.abs(u - target) < 0.004 && Math.abs(explode - explodeTarget) < 0.004;
+  frame = settled ? 0 : requestAnimationFrame(tick);
+}
+function wake() {
+  if (!frame) { last = 0; frame = requestAnimationFrame(tick); }
+}
+function hold(next, play) {
+  playing = Boolean(play) && !still.matches;
+  target = next;
+  clearTimeout(idle);
+  idle = setTimeout(() => { if (!still.matches) { playing = true; wake(); } }, 8000);
+  wake();
+}
+stageEl.addEventListener("pointerdown", (event) => {
+  drag = { x: event.clientX, y: event.clientY, azimuth, elevation, moved: false };
+  stageEl.setPointerCapture(event.pointerId);
+  hold(target, false);
+});
+stageEl.addEventListener("pointermove", (event) => {
+  if (!drag) return;
+  const dx = event.clientX - drag.x;
+  const dy = event.clientY - drag.y;
+  if (Math.hypot(dx, dy) > 3) drag.moved = true;
+  azimuth = drag.azimuth + dx * 0.35;
+  elevation = Math.max(18, Math.min(62, drag.elevation - dy * 0.12));
+  wake();
+});
+function endDrag() { drag = null; }
+stageEl.addEventListener("pointerup", endDrag);
+stageEl.addEventListener("pointercancel", endDrag);
+stageEl.addEventListener("keydown", (event) => {
+  const order = STAGES.map((stage) => stage.at);
+  const here = nearest(target).at;
+  const index = Math.max(0, order.indexOf(here));
+  const lastKey = String(order.length);
+  if (event.key >= "1" && event.key <= lastKey) hold(order[Number(event.key) - 1], false);
+  else if (event.key === "ArrowRight") hold(order[Math.min(order.length - 1, index + 1)], false);
+  else if (event.key === "ArrowLeft") hold(order[Math.max(0, index - 1)], false);
+  else if (event.key === " ") { event.preventDefault(); hold(target, !playing); }
+  else if (event.key === "e" || event.key === "E") { explodeTarget = explodeTarget > 0.5 ? 0 : 1; wake(); }
+  else if (event.key === "[") speed = Math.max(0.25, speed / 1.6);
+  else if (event.key === "]") speed = Math.min(3, speed * 1.6);
+  else return;
+  event.preventDefault();
+});
+for (const button of buttons) {
+  button.addEventListener("click", () => hold(Number(button.dataset.stage), false));
+}
+render();
+if (playing) wake();
+</script></body></html>
